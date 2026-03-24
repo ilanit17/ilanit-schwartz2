@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מחולל פרומפטים ופסקאות לאיורי אביב</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#faf8f3;
+      --card:#ffffff;
+      --ink:#2f2923;
+      --muted:#74685b;
+      --line:#e9e2d6;
+      --gold:#c8a85a;
+      --sage:#7f9881;
+      --success:#2f6f4f;
+      --danger:#9f3a38;
+      --child:#f6efe3;
+      --child-accent:#f0c97d;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:'Heebo', Arial, sans-serif;
+      background:var(--bg);
+      color:var(--ink);
+    }
+
+    .wrap{
+      max-width:1600px;
+      margin:0 auto;
+      padding:28px;
+    }
+
+    .hero{
+      text-align:center;
+      margin-bottom:24px;
+    }
+
+    .hero h1{
+      margin:0 0 8px;
+      font-family:'Frank Ruhl Libre', serif;
+      font-size:2.6rem;
+      font-weight:500;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:1.05rem;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns:1.02fr 0.98fr;
+      gap:24px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:0 8px 26px rgba(0,0,0,.04);
+    }
+
+    .card-inner{padding:22px}
+
+    .section-title{
+      font-family:'Frank Ruhl Libre', serif;
+      font-size:1.7rem;
+      margin:0 0 18px;
+    }
+
+    .sub-section-title{
+      margin:22px 0 12px;
+      font-size:1rem;
+      font-weight:700;
+      color:var(--sage);
+    }
+
+    .grid-2,.grid-3,.grid-4{
+      display:grid;
+      gap:14px;
+      margin-bottom:14px;
+    }
+
+    .grid-2{grid-template-columns:1fr 1fr}
+    .grid-3{grid-template-columns:1fr 1fr 1fr}
+    .grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    label{
+      font-size:.98rem;
+      font-weight:500;
+    }
+
+    input[type="text"], select, textarea, input[type="file"]{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:12px 14px;
+      font-family:inherit;
+      font-size:1rem;
+      background:#fff;
+      color:var(--ink);
+    }
+
+    textarea{
+      resize:vertical;
+      min-height:92px;
+      line-height:1.7;
+    }
+
+    .check-group{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+      background:#fff;
+      display:grid;
+      gap:10px;
+      max-height:240px;
+      overflow:auto;
+    }
+
+    .check-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-size:.95rem;
+    }
+
+    .other-input{margin-top:8px}
+
+    .btn-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+
+    button{
+      border:none;
+      border-radius:999px;
+      padding:11px 18px;
+      cursor:pointer;
+      font-family:inherit;
+      font-size:.98rem;
+      font-weight:500;
+    }
+
+    .primary{
+      background:linear-gradient(135deg,#8ea08b,#738970);
+      color:#fff;
+    }
+
+    .ghost{
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--ink);
+    }
+
+    .output{
+      display:grid;
+      gap:20px;
+    }
+
+    .outbox{
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .outhead{
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .outhead h3{
+      margin:0;
+      font-family:'Frank Ruhl Libre', serif;
+      font-size:1.45rem;
+      font-weight:500;
+    }
+
+    .outbody{
+      padding:16px;
+      background:#fffdf9;
+    }
+
+    .outbody textarea{
+      min-height:300px;
+      background:#fffdf9;
+    }
+
+    .outbody.small textarea{
+      min-height:210px;
+    }
+
+    .button-cluster{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .subtle{
+      color:var(--muted);
+      font-size:.85rem;
+      margin-top:4px;
+    }
+
+    .status{
+      margin-top:10px;
+      color:var(--success);
+      font-size:.92rem;
+      min-height:1.2em;
+    }
+
+    .status.error{color:var(--danger)}
+
+    .soft-box{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fffdf9;
+      padding:14px;
+      margin-bottom:14px;
+    }
+
+    .print-page{
+      width:210mm;
+      min-height:297mm;
+      margin:0 auto;
+      background:#fff;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 12px 30px rgba(0,0,0,.08);
+      border:1px solid #f1ede5;
+    }
+
+    .print-page::before{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border:1px solid rgba(200,168,90,.28);
+      pointer-events:none;
+      z-index:5;
+    }
+
+    .print-image-wrap{
+      position:relative;
+      height:60%;
+      background:#fff;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10mm 12mm 0;
+    }
+
+    .print-image-wrap img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center center;
+      display:block;
+      background:#fff;
+    }
+
+    .print-placeholder{
+      width:100%;
+      height:100%;
+      border:2px dashed var(--line);
+      border-radius:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      color:var(--muted);
+      font-size:1.1rem;
+      padding:24px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(240,201,125,.18), transparent 20%),
+        radial-gradient(circle at 80% 22%, rgba(127,152,129,.12), transparent 18%),
+        radial-gradient(circle at 72% 78%, rgba(200,168,90,.12), transparent 16%),
+        linear-gradient(180deg, #fffdf9, #faf6ee);
+    }
+
+    .print-text-wrap{
+      height:40%;
+      padding:9mm 16mm 12mm;
+      text-align:center;
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      background:#fff;
+    }
+
+    .print-name{
+      font-family:'Frank Ruhl Libre', serif;
+      font-size:38px;
+      line-height:1.1;
+      margin:0 0 8px;
+      font-weight:500;
+      color:var(--ink);
+    }
+
+    .print-tagline{
+      font-family:'Frank Ruhl Libre', serif;
+      font-size:22px;
+      line-height:1.5;
+      margin:0 0 18px;
+      font-weight:300;
+      color:var(--sage);
+      max-width:90%;
+    }
+
+    .print-separator{
+      width:82px;
+      height:20px;
+      position:relative;
+      margin-bottom:20px;
+    }
+
+    .print-separator::before,
+    .print-separator::after{
+      content:"";
+      position:absolute;
+      top:10px;
+      width:30px;
+      height:1px;
+      background:rgba(200,168,90,.6);
+    }
+
+    .print-separator::before{right:0}
+    .print-separator::after{left:0}
+
+    .print-separator span{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--gold);
+      font-size:16px;
+    }
+
+    .print-paragraph{
+      width:92%;
+      font-size:19px;
+      line-height:2;
+      font-weight:300;
+      color:var(--ink);
+      white-space:pre-wrap;
+      border:none;
+      background:transparent;
+      text-align:center;
+      resize:none;
+      outline:none;
+      padding:0;
+      font-family:'Heebo', Arial, sans-serif;
+      overflow:hidden;
+      min-height:150px;
+    }
+
+    .print-footer{
+      position:absolute;
+      bottom:6mm;
+      left:0;
+      right:0;
+      text-align:center;
+      font-size:12px;
+      color:#a5a79a;
+      letter-spacing:.12em;
+    }
+
+    .print-only-area{
+      display:none;
+    }
+
+    .hide{
+      display:none !important;
+    }
+
+    @media (max-width: 1200px){
+      .layout{grid-template-columns:1fr}
+      .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+      .wrap{padding:16px}
+      .hero h1{font-size:2rem}
+      .print-page{
+        width:100%;
+        min-height:auto;
+        aspect-ratio:210 / 297;
+      }
+    }
+
+    @media print{
+      @page{
+        size:A4 portrait;
+        margin:0;
+      }
+
+      body{
+        background:white;
+        padding:0;
+      }
+
+      body.print-mode .wrap{
+        display:none !important;
+      }
+
+      body.print-mode .print-only-area{
+        display:block !important;
+      }
+
+      body.print-mode .print-only-area .print-page{
+        width:210mm;
+        height:297mm;
+        min-height:297mm;
+        box-shadow:none;
+        border:none;
+        margin:0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>מחולל פרומפטים ופסקאות לאיורי אביב</h1>
+      <p>עובד גם למבוגרים וגם לילדים, עם תמונה קיימת או בלי תמונה בכלל.</p>
+    </div>
+
+    <div class="layout">
+      <div class="card">
+        <div class="card-inner">
+          <h2 class="section-title">פרטי הדמות</h2>
+
+          <div class="soft-box">
+            <div class="grid-4">
+              <div class="field">
+                <label for="audienceMode">קהל יעד</label>
+                <select id="audienceMode">
+                  <option value="adult">מבוגר/ת</option>
+                  <option value="child">ילד / ילדה</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="characterMode">סוג יצירה</label>
+                <select id="characterMode">
+                  <option value="withPhoto">דמות עם תמונה</option>
+                  <option value="withoutPhoto">דמות בלי תמונה</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="characterGender">סוג הדמות</label>
+                <select id="characterGender">
+                  <option value="female">ילדה / אישה</option>
+                  <option value="male">ילד / איש</option>
+                  <option value="neutral">דמות כללית</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="ageHint">גיל משוער / שכבה</label>
+                <input id="ageHint" type="text" placeholder="למשל: בת 8 / כיתה ג׳ / מבוגרת">
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="name">שם הדמות</label>
+              <input id="name" type="text" placeholder="למשל: רותי / נועה / יואב">
+            </div>
+            <div class="field">
+              <label for="role">תפקיד / תיאור קצר</label>
+              <input id="role" type="text" placeholder="למשל: מורה / תלמידה סקרנית / רכזת / ילד שאוהב טבע">
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="field">
+              <label for="style">סגנון עיצובי</label>
+              <select id="style"></select>
+            </div>
+            <div class="field">
+              <label for="flower">פרח מרכזי</label>
+              <select id="flower"></select>
+            </div>
+            <div class="field">
+              <label for="mood">אווירה כללית</label>
+              <select id="mood"></select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="titleChoice">כותרת</label>
+              <select id="titleChoice"></select>
+              <input id="customTitle" class="other-input" type="text" placeholder="כותרת מותאמת אישית" style="display:none;">
+            </div>
+            <div class="field">
+              <label for="signature">חתימה / מי כותב את הברכה</label>
+              <input id="signature" type="text" value="באהבה ובהערכה" placeholder="למשל: באהבה ובהערכה / מאמא ואבא / מצוות הכיתה">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>תכונות אופי</label>
+              <div class="check-group" id="traitsBox"></div>
+              <input id="traitsOther" class="other-input" type="text" placeholder="אחר... (מופרד בפסיקים)">
+              <div class="subtle">מומלץ לבחור עד 3</div>
+            </div>
+
+            <div class="field">
+              <label>חוזקות מרכזיות</label>
+              <div class="check-group" id="strengthsBox"></div>
+              <input id="strengthsOther" class="other-input" type="text" placeholder="אחר... (מופרד בפסיקים)">
+              <div class="subtle">מומלץ לבחור עד 3</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="theme">רעיון מרכזי של הדמות</label>
+            <input id="theme" type="text" value="spring renewal, growth, joy, and meaningful presence">
+          </div>
+
+          <div class="field">
+            <label>קשר חינוכי / דרך פעולה</label>
+            <div class="check-group" id="eduBox"></div>
+            <textarea id="eduOther" class="other-input" placeholder="אחר..."></textarea>
+            <div class="subtle">מומלץ לבחור עד 2</div>
+          </div>
+
+          <div class="field">
+            <label>נגיעות אישיות / תחביבים / משפחה</label>
+            <div class="check-group" id="personalBox"></div>
+            <textarea id="personalOther" class="other-input" placeholder="אחר..."></textarea>
+            <div class="subtle">מומלץ לבחור עד 3</div>
+          </div>
+
+          <div class="field">
+            <label>תחביבים ותחומי עניין שיופיעו בתמונה</label>
+            <div class="check-group" id="hobbiesBox"></div>
+            <input id="hobbiesOther" class="other-input" type="text" placeholder="אחר... (מופרד בפסיקים)">
+          </div>
+
+          <div class="field">
+            <label>פרטים אישיים עדינים שיופיעו בתמונה</label>
+            <div class="check-group" id="personalVisualBox"></div>
+            <input id="personalVisualOther" class="other-input" type="text" placeholder="אחר... (מופרד בפסיקים)">
+          </div>
+
+          <div class="field">
+            <label>סמלים חזותיים מאפיינים</label>
+            <div class="check-group" id="visualSymbolsBox"></div>
+            <input id="visualSymbolsOther" class="other-input" type="text" placeholder="אחר... (מופרד בפסיקים)">
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label>מאפייני אביב</label>
+              <div class="check-group" id="springBox"></div>
+            </div>
+            <div class="field">
+              <label>אלמנטים סמליים כלליים</label>
+              <div class="check-group" id="symbolBox"></div>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="primary" id="generateBtn">יצירת פרומפטים</button>
+            <button type="button" class="ghost" id="resetBtn">איפוס</button>
+          </div>
+          <div class="status" id="status"></div>
+        </div>
+      </div>
+
+      <div class="output">
+        <div class="outbox">
+          <div class="outhead">
+            <div class="button-cluster">
+              <button type="button" class="ghost" id="copyPrompt">העתקת פרומפט תמונה</button>
+              <button type="button" class="ghost" id="downloadPrompt">הורדת פרומפט תמונה</button>
+            </div>
+            <h3>פרומפט תמונה בלבד</h3>
+          </div>
+          <div class="outbody">
+            <textarea id="promptOutput" readonly></textarea>
+          </div>
+        </div>
+
+        <div class="outbox">
+          <div class="outhead">
+            <div class="button-cluster">
+              <button type="button" class="ghost" id="copyParagraph">העתקת פסקה</button>
+              <button type="button" class="ghost" id="downloadParagraph">הורדת פסקה</button>
+            </div>
+            <h3>הפסקה הגולמית</h3>
+          </div>
+          <div class="outbody small">
+            <textarea id="paragraphOutput" readonly></textarea>
+          </div>
+        </div>
+
+        <div class="outbox">
+          <div class="outhead">
+            <div class="button-cluster">
+              <button type="button" class="ghost" id="copyRewritePrompt">העתקת פרומפט שכתוב</button>
+              <button type="button" class="ghost" id="downloadRewritePrompt">הורדת פרומפט שכתוב</button>
+              <button type="button" class="ghost" id="downloadAll">הורדת הכל</button>
+            </div>
+            <h3>פרומפט נפרד לעריכת הפסקה</h3>
+          </div>
+          <div class="outbody small">
+            <textarea id="rewritePromptOutput" readonly></textarea>
+          </div>
+        </div>
+
+        <div class="outbox">
+          <div class="outhead">
+            <h3>תמונה לעמוד ההדפסה</h3>
+          </div>
+          <div class="outbody">
+            <div class="grid-2" style="margin-bottom:0;">
+              <div class="field" id="imageUploadField">
+                <label for="imageInput">העלאת תמונה</label>
+                <input id="imageInput" type="file" accept="image/*">
+                <div class="subtle">במצב "בלי תמונה" אפשר להשאיר ריק.</div>
+              </div>
+              <div class="field">
+                <label for="printFooter">חתימת המסמך לעמוד ההדפסה</label>
+                <input id="printFooter" type="text" value="אביב תשפ״ו" placeholder="למשל: פסח תשפ״ו / באהבה ובהערכה">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="outbox">
+          <div class="outhead">
+            <div class="button-cluster">
+              <button type="button" class="ghost" id="printCardBtn">הדפסה / שמירה כ־PDF</button>
+            </div>
+            <h3>תצוגה מקדימה לעמוד ההדפסה</h3>
+          </div>
+          <div class="outbody" style="overflow:auto; background:#f7f4ee;">
+            <div class="print-page">
+              <div class="print-image-wrap">
+                <div class="print-placeholder" id="printPlaceholder">אפשר להעלות תמונה, או לעבוד בלי תמונה ולהשאיר מרחב לאיור העתידי.</div>
+                <img id="printPreviewImage" style="display:none;" alt="">
+              </div>
+              <div class="print-text-wrap">
+                <div class="print-name" id="printPreviewName">שם הדמות</div>
+                <div class="print-tagline" id="printPreviewTagline">כותרת משנה</div>
+                <div class="print-separator"><span>✦</span></div>
+                <textarea id="printPreviewParagraph" class="print-paragraph">כאן תופיע הפסקה שתיווצר באפליקציה, וניתן גם לערוך או להדביק אותה כאן.</textarea>
+                <div class="print-footer" id="printPreviewFooter">אביב תשפ״ו</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="print-only-area">
+    <div class="print-page">
+      <div class="print-image-wrap">
+        <div class="print-placeholder" id="printOnlyPlaceholder">מקום שמור לתמונה או לאיור</div>
+        <img id="printOnlyImage" alt="" style="display:none;">
+      </div>
+      <div class="print-text-wrap">
+        <div class="print-name" id="printOnlyName"></div>
+        <div class="print-tagline" id="printOnlyTagline"></div>
+        <div class="print-separator"><span>✦</span></div>
+        <div class="print-paragraph" id="printOnlyParagraph" style="min-height:auto;"></div>
+        <div class="print-footer" id="printOnlyFooter"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const styleOptions = [
+      { id:'watercolor', label:'צבעי מים עדינים', adultPrompt:'Transform this photo into a delicate transparent watercolor illustration, loose wet-on-wet washes, spring flower garden feeling, soft bleeding edges.', childPrompt:'Create a delicate transparent watercolor illustration of the character, soft spring colors, gentle floral atmosphere, warm and child-friendly.' },
+      { id:'gouache', label:'גואש אלגנטי', adultPrompt:'Transform this photo into a refined gouache painting with rich layered textures, soft matte depth, and an elegant spring atmosphere.', childPrompt:'Create a rich gouache illustration of the character with soft matte textures, gentle spring details, charming and friendly.' },
+      { id:'editorial', label:'איור יוקרתי-מערכתי', adultPrompt:'Transform this photo into a refined semi-realistic editorial illustration, clean, luminous, modern, and elegant, with a sophisticated spring atmosphere.', childPrompt:'Create a clean semi-realistic illustration of the character, bright and polished, but still warm, friendly, and suitable for children.' },
+      { id:'pastel', label:'פסטל חלומי', adultPrompt:'Transform this photo into a dreamy soft pastel illustration, delicate petal-like brushstrokes, blooming spring atmosphere, warm cream and blush tones.', childPrompt:'Create a dreamy soft pastel illustration of the character, gentle spring petals, soft blush tones, sweet and magical but not exaggerated.' },
+      { id:'ghibli', label:'בהשראת ג׳יבלי', adultPrompt:'Transform this photo into a Studio Ghibli inspired illustration, lush spring meadow backdrop, warm natural lighting, expressive soft linework, whimsical botanical details.', childPrompt:'Create a Studio Ghibli inspired spring illustration of the character, joyful meadow, warm lighting, expressive face, whimsical natural details.' },
+      { id:'magazine', label:'שער מגזין', adultPrompt:'Transform this photo into a high-end editorial portrait, elegant, bright, modern, and striking, with a refined spring-inspired atmosphere.', childPrompt:'Create a bright polished portrait illustration of the character with cheerful spring styling, clear composition, and gentle joyful energy.' },
+      { id:'storybook', label:'ספר ילדים', adultPrompt:'Transform this photo into a soft illustrated children’s-book style portrait, clean outlines, warm spring details, elegant and gentle.', childPrompt:'Create a children’s-book illustration of the character, soft outlines, expressive face, spring flowers, joyful and inviting atmosphere.' }
+    ];
+
+    const flowerOptions = ['שקדיה','כלנית','אירוס','נורית','צבעוני','פרחי בר','חרצית','חמנייה','אין פרח מרכזי'];
+    const moodOptions = ['רכה ומוארת','אלגנטית ומדויקת','חמה ואנושית','חיונית ודינמית','עמוקה ושקטה','מעצימה ומעוררת השראה','שמחה וצבעונית','קסומה ועדינה'];
+    const titleOptions = ['כך מתעצב האביב — דרכך','האביב מתעצב דרכך','האביב שבך נבנה מתוך בהירות ויציבות','הדרך לאביב נסללת בדיוק ובנועם','העתיד מתעצב דרכך','בך נבנים גשרים — ונפתחת הדרך','כך את אביב בעולם','האביב גלום בך','את מביאה איתך את האביב','האביב מחייך דרכך','פורחים יחד איתך','כותרת מותאמת אישית'];
+    const springElements = ['אור בוקר רך','עלי כותרת מרחפים','פרפרים','ציפורים רחוקות','שביל עדין','אופק פתוח','ענפים פורחים','נגיעות זהב עדינות','מרחב ירוק פתוח','שמיים בהירים','דשא רענן'];
+    const symbolicElements = ['ספר פתוח','אור רך / הילה','מצפן','קווי חיבור עדינים','שבילים משתלבים','אלמנט של קהילה','רמז לטכנולוגיה/חדשנות','אדמה / שורשים','אופק רחב','לב עדין','כוכבים קטנים','ללא סמלים נוספים'];
+
+    const adultTraits = ['חכמה','אנושית','מקצועית','רגישה','ערכית','יצירתית','מדויקת','חייכנית','צנועה','נבונה','מעצימה','עניינית','נעימת הליכות','מחברת','חמה','אכפתית','בעלת חזון','מנהיגה','סבלנית','יסודית'];
+    const childTraits = ['סקרנ/ית','שמח/ה','רגיש/ה','יצירתי/ת','אמיץ/ה','חולמ/ת','טוב/ת לב','סבלנ/ית','חברתי/ת','חייכנ/ית','חכם/ה','עדינ/ה','מלא/ת דמיון','אנרגטי/ת','אוהב/ת לעזור','מתבוננ/ת','נעים/ה','בטוח/ה בעצמו/ה'];
+
+    const adultStrengths = ['ראייה רחבה','יכולת להוביל','נוכחות חמה','חיבור לאנשים','יצירת סדר','דיוק','יכולת להניע תהליכים','אמונה באנשים','חיבור לשטח','יצירת שותפות','בהירות מחשבה','העצמת אחרים','יציבות','רגישות אנושית','אחריות','יכולת לחבר בין חלקים','מחויבות','עומק'];
+    const childStrengths = ['דמיון עשיר','לב טוב','אומץ לנסות','יכולת לשתף','שמחת חיים','סקרנות טבעית','אהבה ללמידה','יכולת להתמיד','חיבור לחברים','יכולת להבחין בפרטים','יצירתיות','עדינות','ביטוי עצמי','נוכחות נעימה','אהבה לטבע'];
+
+    const adultEdu = ['מחברת בין אנשים, רעיונות ועשייה','פועלת מתוך רגישות ואחריות','מובילה תהליכים מתוך בהירות ואמון','יוצרת מרחב שבו אפשר לצמוח','מחוברת לשטח החינוכי','מסייעת לדברים להתנהל נכון וביציבות','מקדמת למידה, התפתחות והתחדשות','מאפשרת לאנשים למצוא את מקומם','מחזקת תחושת שייכות ושותפות','פותחת דרכים חדשות לחשיבה ולעשייה'];
+    const childEdu = ['אוהב/ת לגלות דברים חדשים','לומד/ת מתוך סקרנות ושמחה','אוהב/ת לשתף פעולה','נהנ/ית ממשחק ולמידה','מביא/ה לב טוב לחברים','מתפתח/ת צעד אחר צעד','מוצא/ת דרכים יצירתיות לחשוב','נהנ/ית לעזור לאחרים','פורח/ת כשהסביבה מעודדת','מביא/ה אור ונוכחות טובה'];
+
+    const adultPersonal = ['משפחתית','אוהבת טבע','טיולים בישראל','טיולים בעולם','אוהבת ספורט','אוהבת ריקוד','אוהבת בעלי חיים','שומרת מצוות','אוהבת אקטואליה','מעורבת חברתית','אוהבת ללמוד ולהתפתח','מחוברת לקהילה','סבתא','אשת משפחה מסורה','אוהבת אנשים'];
+    const childPersonal = ['אוהב/ת טבע','אוהב/ת לצייר','אוהב/ת לקרוא','אוהב/ת לשחק','אוהב/ת לרקוד','אוהב/ת מוזיקה','אוהב/ת בעלי חיים','אוהב/ת לעזור בבית','אוהב/ת חברים','אוהב/ת לטייל','אוהב/ת להמציא סיפורים','אוהב/ת לבנות דברים'];
+
+    const adultHobbies = ['טיולים בישראל','טיולים בעולם','טבע','ריקוד','ספורט','קריאה','כתיבה','עיצוב','בישול ואירוח','מוזיקה','אקטואליה','למידה והתפתחות','צילום','קהילה','בעלי חיים'];
+    const childHobbies = ['ציור','צביעה','משחק','קריאה','ריקוד','כדורגל','בניית לגו','מוזיקה','טבע','בעלי חיים','אופניים','יצירה','דמיון וסיפורים','צילום','גן שעשועים'];
+
+    const adultPersonalVisual = ['משפחתיות','ילדים בוגרים','נכדים','כלב','חתול','חיבור לקהילה','שורשיות','בית חם','מעורבות חברתית','שומרת מצוות','חיבור לטבע','חיבור לארץ','העצמת נשים','נדיבות','חום אנושי'];
+    const childPersonalVisual = ['חיוך גדול','תיק קטן','ספר אהוב','כדור','עפרונות צבעוניים','כלב','חתול','פרפרים סביב הדמות','פרחים בשיער','כובע אביבי','מבט סקרן','ידיים פעילות','חיבור לטבע','לב טוב','שמחת משחק'];
+
+    const adultVisualSymbols = ['ספר פתוח','מצפן','שבילים','קווי חיבור','הילה של אור','אופק פתוח','פרפרים','ציפורים','ענפים פורחים','מחשב / חדשנות','מגן / יציבות','קלף מעוצב','ארבע כוסות','פרחים סביב הדמות','מעגלי קהילה'];
+    const childVisualSymbols = ['ספר פתוח','קשת עדינה','כוכבים קטנים','פרפרים','פרחים סביב הדמות','עפיפון','בלונים עדינים','שביל קטן','שמש רכה','ציפורים','לבבות קטנים','עפרונות צבעוניים','עננים רכים','גן פרחים'];
+
+    const els = {
+      audienceMode: document.getElementById('audienceMode'),
+      characterMode: document.getElementById('characterMode'),
+      characterGender: document.getElementById('characterGender'),
+      ageHint: document.getElementById('ageHint'),
+      style: document.getElementById('style'),
+      flower: document.getElementById('flower'),
+      mood: document.getElementById('mood'),
+      titleChoice: document.getElementById('titleChoice'),
+      customTitle: document.getElementById('customTitle'),
+      signature: document.getElementById('signature'),
+      springBox: document.getElementById('springBox'),
+      symbolBox: document.getElementById('symbolBox'),
+      traitsBox: document.getElementById('traitsBox'),
+      traitsOther: document.getElementById('traitsOther'),
+      strengthsBox: document.getElementById('strengthsBox'),
+      strengthsOther: document.getElementById('strengthsOther'),
+      eduBox: document.getElementById('eduBox'),
+      eduOther: document.getElementById('eduOther'),
+      personalBox: document.getElementById('personalBox'),
+      personalOther: document.getElementById('personalOther'),
+      hobbiesBox: document.getElementById('hobbiesBox'),
+      hobbiesOther: document.getElementById('hobbiesOther'),
+      personalVisualBox: document.getElementById('personalVisualBox'),
+      personalVisualOther: document.getElementById('personalVisualOther'),
+      visualSymbolsBox: document.getElementById('visualSymbolsBox'),
+      visualSymbolsOther: document.getElementById('visualSymbolsOther'),
+      generateBtn: document.getElementById('generateBtn'),
+      resetBtn: document.getElementById('resetBtn'),
+      copyPrompt: document.getElementById('copyPrompt'),
+      copyParagraph: document.getElementById('copyParagraph'),
+      copyRewritePrompt: document.getElementById('copyRewritePrompt'),
+      downloadPrompt: document.getElementById('downloadPrompt'),
+      downloadParagraph: document.getElementById('downloadParagraph'),
+      downloadRewritePrompt: document.getElementById('downloadRewritePrompt'),
+      downloadAll: document.getElementById('downloadAll'),
+      promptOutput: document.getElementById('promptOutput'),
+      paragraphOutput: document.getElementById('paragraphOutput'),
+      rewritePromptOutput: document.getElementById('rewritePromptOutput'),
+      name: document.getElementById('name'),
+      role: document.getElementById('role'),
+      theme: document.getElementById('theme'),
+      status: document.getElementById('status'),
+      imageInput: document.getElementById('imageInput'),
+      imageUploadField: document.getElementById('imageUploadField'),
+      printFooter: document.getElementById('printFooter'),
+      printCardBtn: document.getElementById('printCardBtn'),
+      printPreviewImage: document.getElementById('printPreviewImage'),
+      printPlaceholder: document.getElementById('printPlaceholder'),
+      printPreviewName: document.getElementById('printPreviewName'),
+      printPreviewTagline: document.getElementById('printPreviewTagline'),
+      printPreviewParagraph: document.getElementById('printPreviewParagraph'),
+      printPreviewFooter: document.getElementById('printPreviewFooter'),
+      printOnlyImage: document.getElementById('printOnlyImage'),
+      printOnlyPlaceholder: document.getElementById('printOnlyPlaceholder'),
+      printOnlyName: document.getElementById('printOnlyName'),
+      printOnlyTagline: document.getElementById('printOnlyTagline'),
+      printOnlyParagraph: document.getElementById('printOnlyParagraph'),
+      printOnlyFooter: document.getElementById('printOnlyFooter')
+    };
+
+    let uploadedImageSrc = '';
+
+    function fillSelect(select, items, useObj=false){
+      if (!select) return;
+      select.innerHTML = '';
+      items.forEach(item => {
+        const option = document.createElement('option');
+        if(useObj){
+          option.value = item.id;
+          option.textContent = item.label;
+        } else {
+          option.value = item;
+          option.textContent = item;
+        }
+        select.appendChild(option);
+      });
+    }
+
+    function fillChecks(container, items, defaults = []){
+      if (!container) return;
+      container.innerHTML = '';
+      items.forEach(item => {
+        const row = document.createElement('label');
+        row.className = 'check-item';
+        row.innerHTML = `<span>${item}</span><input type="checkbox" value="${item}" ${defaults.includes(item) ? 'checked' : ''}>`;
+        container.appendChild(row);
+      });
+    }
+
+    function getCurrentSets(){
+      const audience = els.audienceMode.value;
+      return {
+        traits: audience === 'child' ? childTraits : adultTraits,
+        strengths: audience === 'child' ? childStrengths : adultStrengths,
+        edu: audience === 'child' ? childEdu : adultEdu,
+        personal: audience === 'child' ? childPersonal : adultPersonal,
+        hobbies: audience === 'child' ? childHobbies : adultHobbies,
+        personalVisual: audience === 'child' ? childPersonalVisual : adultPersonalVisual,
+        visualSymbols: audience === 'child' ? childVisualSymbols : adultVisualSymbols
+      };
+    }
+
+    function initStaticOptions(){
+      fillSelect(els.style, styleOptions, true);
+      fillSelect(els.flower, flowerOptions);
+      fillSelect(els.mood, moodOptions);
+      fillSelect(els.titleChoice, titleOptions);
+
+      fillChecks(els.springBox, springElements, ['אור בוקר רך','שביל עדין','אופק פתוח']);
+      fillChecks(els.symbolBox, symbolicElements, ['ספר פתוח','אור רך / הילה','קווי חיבור עדינים']);
+    }
+
+    function refreshDynamicOptions(){
+      const sets = getCurrentSets();
+      fillChecks(els.traitsBox, sets.traits, sets.traits.slice(0, 3));
+      fillChecks(els.strengthsBox, sets.strengths, sets.strengths.slice(0, 3));
+      fillChecks(els.eduBox, sets.edu, []);
+      fillChecks(els.personalBox, sets.personal, []);
+      fillChecks(els.hobbiesBox, sets.hobbies, []);
+      fillChecks(els.personalVisualBox, sets.personalVisual, []);
+      fillChecks(els.visualSymbolsBox, sets.visualSymbols, []);
+
+      if (els.audienceMode.value === 'child') {
+        if (!els.role.value.trim()) els.role.placeholder = 'למשל: תלמידה סקרנית / ילד שאוהב לצייר / ילדה שאוהבת בעלי חיים';
+        if (!els.theme.value.trim() || els.theme.value.includes('meaningful human presence')) {
+          els.theme.value = 'spring joy, curiosity, growth, imagination, and warm presence';
+        }
+      } else {
+        if (!els.role.value.trim()) els.role.placeholder = 'למשל: מדריכה ארצית / מנהלת אגף / רכזת / דמות חינוכית';
+      }
+    }
+
+    function setStatus(msg, isError=false){
+      els.status.textContent = msg;
+      els.status.classList.toggle('error', isError);
+      if(msg){
+        setTimeout(() => {
+          if(els.status.textContent === msg){
+            els.status.textContent = '';
+            els.status.classList.remove('error');
+          }
+        }, 2200);
+      }
+    }
+
+    function getCheckedValues(container){
+      return [...container.querySelectorAll('input:checked')].map(i => i.value);
+    }
+
+    function getCombinedValues(boxEl, otherEl){
+      const checked = [...boxEl.querySelectorAll('input:checked')].map(i => i.value);
+      const other = otherEl.value.split(',').map(s => s.trim()).filter(Boolean);
+      return [...checked, ...other];
+    }
+
+    function firstName(fullName){
+      return (fullName || '').trim().split(' ')[0] || '';
+    }
+
+    function pickTop(items, max = 3){
+      return (items || []).filter(Boolean).slice(0, max);
+    }
+
+    function joinHebrew(items){
+      if(!items.length) return '';
+      if(items.length === 1) return items[0];
+      if(items.length === 2) return `${items[0]} ו${items[1]}`;
+      return `${items.slice(0, -1).join(', ')} ו${items[items.length - 1]}`;
+    }
+
+    function buildFlowerSentence(flower){
+      const map = {
+        'שקדיה':'כמו השקדיה הפורחת בעדינות ובאור,',
+        'כלנית':'כמו כלנית הנפתחת במלוא נוכחותה,',
+        'אירוס':'כמו האירוס האצילי הניצב ביופי שקט,',
+        'נורית':'כמו נורית הצומחת בשדה פתוח ומלא חיים,',
+        'צבעוני':'כמו הצבעוני הזקוף והמאוזן,',
+        'פרחי בר':'כמו פרחי הבר הנעים ברוח,',
+        'חרצית':'כמו החרצית הפשוטה והמאוזנת,',
+        'חמנייה':'כמו חמנייה הפונה אל האור,',
+        'אין פרח מרכזי':'כמו מרחב אביבי הנפתח אל האור,'
+      };
+      return map[flower] || 'כמו מרחב אביבי הנפתח אל האור,';
+    }
+
+    function getSubjectWord(data){
+      const audience = data.audienceMode;
+      const gender = data.characterGender;
+      if (audience === 'child') {
+        if (gender === 'male') return 'אתה';
+        if (gender === 'neutral') return 'הדמות';
+        return 'את';
+      } else {
+        if (gender === 'male') return 'אתה';
+        if (gender === 'neutral') return 'הדמות';
+        return 'את';
+      }
+    }
+
+    function getSubjectNoun(data){
+      const audience = data.audienceMode;
+      const gender = data.characterGender;
+      if (audience === 'child') {
+        if (gender === 'male') return 'ילד';
+        if (gender === 'neutral') return 'ילד/ה';
+        return 'ילדה';
+      }
+      if (gender === 'male') return 'איש';
+      if (gender === 'neutral') return 'דמות';
+      return 'אישה';
+    }
+
+    function buildParagraph(data){
+      const name = firstName(data.name);
+      const title = data.title || 'האביב מתעצב דרכך';
+      const traits = pickTop(data.traits, 3);
+      const strengths = pickTop(data.strengths, 3);
+      const eduParts = (data.edu || '').split(',').map(s => s.trim()).filter(Boolean).slice(0,2);
+      const personalParts = (data.personal || '').split(',').map(s => s.trim()).filter(Boolean).slice(0,3);
+      const flowerSentence = buildFlowerSentence(data.flower);
+      const subject = getSubjectWord(data);
+
+      if (data.audienceMode === 'child') {
+        const line1 = `${title}${name ? `, ${name},` : ''} מתגלה מתוך ${joinHebrew(traits) || 'סקרנות, שמחה ונוכחות טובה'}.`;
+        const line2 = `${flowerSentence} ${data.ageHint ? `${data.ageHint}, ` : ''}${subject} מביא/ה איתך ${joinHebrew(strengths) || 'דמיון, לב טוב ואור מיוחד'} ונותנ/ת לדברים לפרוח בדרך נעימה ומשמחת.`;
+        const line3 = eduParts.length
+          ? `${joinHebrew(eduParts)} משקפים את הדרך שבה ${subject} פועל/ת בעולם — ברגישות, בחיוך ובסקרנות טבעית.`
+          : `האור, הפרחים והתנועה האביבית משקפים את הדרך שבה ${subject} מביא/ה שמחה, דמיון וחום אנושי אל הסביבה.`;
+        const line4 = personalParts.length
+          ? `מתוך ${joinHebrew(personalParts)} ונוכחות לבבית, ${subject} יוצר/ת סביבו/ה מרחב שיש בו גדילה, קרבה ויופי קטן של יום־יום.`
+          : `מתוך נוכחות לבבית, ${subject} יוצר/ת סביבו/ה מרחב שיש בו גדילה, שמחה ויופי קטן של יום־יום.`;
+        return [line1, line2, line3, line4].join('\n');
+      }
+
+      const line1 = `${title}${name ? `, ${name},` : ''} מתגלה מתוך ${joinHebrew(traits) || 'עומק, בהירות ונוכחות'}.`;
+      const line2 = `${flowerSentence} ${data.role ? `${data.role ? `בתפקידך כ${data.role}, ` : ''}` : ''}${subject} מביא/ה איתך ${joinHebrew(strengths) || 'ראייה רחבה, אנושיות ויכולת להוביל'} ומאפשר/ת לדברים להיפתח, להתבהר ולהתקדם.`;
+      const line3 = eduParts.length
+        ? `${joinHebrew(eduParts)} משקפים את הדרך שבה ${subject} פועל/ת מתוך רגישות, אחריות וחיבור אמיתי לאנשים ולשטח.`
+        : `האור, השביל והמרחב הפתוח משקפים את הדרך שבה ${subject} מחבר/ת בין אנשים, רעיונות ועשייה — ומאפשר/ת צמיחה שיש בה משמעות.`;
+      const line4 = personalParts.length
+        ? `מתוך ${joinHebrew(personalParts)} ונוכחות אנושית חמה, ${subject} יוצר/ת מרחב שבו הדברים מסתדרים — וממשיכים לצמוח בדרך שיש בה משמעות.`
+        : `מתוך נוכחות אנושית חמה, ${subject} יוצר/ת מרחב שבו הדברים מסתדרים — וממשיכים לצמוח בדרך שיש בה משמעות.`;
+
+      return [line1, line2, line3, line4].join('\n');
+    }
+
+    function getStylePrompt(data){
+      const style = styleOptions.find(s => s.id === data.style) || styleOptions[0];
+      if (data.characterMode === 'withPhoto') {
+        return data.audienceMode === 'child' ? style.childPrompt : style.adultPrompt;
+      }
+      return (data.audienceMode === 'child'
+        ? style.childPrompt
+        : style.adultPrompt
+      ).replace(/^Transform this photo into /i, 'Create ');
+    }
+
+    function getCharacterPromptLine(data){
+      const gender = data.characterGender;
+      const audience = data.audienceMode;
+      if (audience === 'child') {
+        if (gender === 'male') return 'child boy smiling gently at the center';
+        if (gender === 'neutral') return 'child character smiling gently at the center';
+        return 'child girl smiling gently at the center';
+      }
+      if (gender === 'male') return 'man smiling gently at the center';
+      if (gender === 'neutral') return 'character smiling gently at the center';
+      return 'woman smiling gently at the center';
+    }
+
+    function buildImagePrompt(data){
+      const style = getStylePrompt(data);
+      const flower = data.flower === 'אין פרח מרכזי'
+        ? 'no single dominant flower, use a soft spring landscape with subtle blossoms'
+        : data.flower;
+      const spring = data.spring.length ? data.spring.map(s => `- ${s}`).join('\n') : '- אור בוקר רך';
+      const symbols = data.symbols.length ? data.symbols.map(s => `- ${s}`).join('\n') : '- קווי חיבור עדינים';
+      const signature = data.signature || 'באהבה ובהערכה';
+      const hobbiesVisual = joinHebrew(pickTop(data.hobbiesVisual || [], 4));
+      const personalVisual = joinHebrew(pickTop(data.personalVisual || [], 4));
+      const visualSymbolsExtra = joinHebrew(pickTop(data.visualSymbolsExtra || [], 5));
+      const charLine = getCharacterPromptLine(data);
+      const subjectNoun = getSubjectNoun(data);
+      const ageLine = data.ageHint ? `Age cue: ${data.ageHint}` : '';
+      const audienceTone = data.audienceMode === 'child'
+        ? '- atmosphere should feel joyful, warm, imaginative, gentle, and suitable for children\n- avoid overly formal, severe, or overly mature styling\n- keep the expression lively, kind, and natural'
+        : '- atmosphere should feel elegant, warm, human, professional, and hopeful\n- avoid childish exaggeration\n- keep the expression refined and natural';
+
+      const photoInstruction = data.characterMode === 'withPhoto'
+        ? `4. שמור/י על תווי הפנים והדמיון המדויק של הדמות המקורית.`
+        : `4. אין תמונה מקורית. צרו דמות מקורית בהתאם לתיאור, בלי להתבסס על צילום קיים ובלי לכתוב הוראות לשימור תווי פנים.`;
+
+      const compositionExtras = data.characterMode === 'withPhoto'
+        ? '- preserve recognisable facial identity from the original uploaded image'
+        : '- create an original character design based on the written description only';
+
+      const imageNeedle = data.characterMode === 'withPhoto'
+        ? 'If a reference photo exists, use it faithfully.'
+        : 'No reference photo exists. Build the visual character from the written description only.';
+
+      return `3. סגנון התמונה:
+${style}
+
+${photoInstruction}
+
+5. קומפוזיציה:
+- poster vertical composition, A4 ratio
+- ${charLine}
+- mid-torso up only
+- centered figure
+- face occupies about 30–35% of image height
+- leave clear space for title at the top
+- leave clear space for the main paragraph in the lower part of the image
+- no close-up, no full body
+- balanced margins on both sides
+${compositionExtras}
+
+6. הרעיון המרכזי:
+Central theme: ${data.theme || 'spring renewal, growth, joy, and meaningful presence'}.
+Key flower: ${flower}.
+${ageLine}
+
+7. מאפייני אביב שיש לשלב:
+${spring}
+
+8. אלמנטים סמליים כלליים שיש לשלב בעדינות:
+${symbols}
+
+9. פרטי הדמות:
+Character type: ${subjectNoun}
+Occupation / short description: ${data.role || 'דמות עם נוכחות אביבית'}
+Personality traits: ${joinHebrew(data.traits) || 'חכמה, אנושית ומקצועית'}
+Core strengths: ${joinHebrew(data.strengths) || 'ראייה רחבה, יכולת להוביל ונוכחות חמה'}
+Personal touches: ${data.personal || 'ללא פרטים נוספים'}
+Overall mood: ${data.mood || 'רכה ומוארת'}
+
+10. רכיבים אישיים שחייבים להופיע חזותית בתוך התמונה:
+תחביבים ותחומי עניין להמחשה חזותית:
+${hobbiesVisual || 'ללא תחביבים נוספים'}
+
+פרטים אישיים עדינים שישתקפו בתמונה:
+${personalVisual || 'ללא פרטים אישיים נוספים'}
+
+סמלים חזותיים מאפיינים שישולבו בקומפוזיציה:
+${visualSymbolsExtra || 'ללא סמלים נוספים'}
+
+11. חשוב:
+- הרכיבים האישיים חייבים להופיע בתמונה עצמה, לא רק כרעיון מופשט
+- אפשר לשלב אותם באובייקטים סביב הדמות, בנוף, בפרטים קטנים, בלבוש או ברקע
+- שמור על שילוב טבעי, אלגנטי ולא עמוס
+- השתמש ב-2 עד 5 מהרכיבים האישיים החזקים ביותר
+- do not ignore them
+- render them visually and meaningfully
+- ${imageNeedle}
+
+12. התמונה צריכה לכלול:
+- דמות במרכז
+- נוף כפרי אביבי / מרחב טבעי אביבי
+- אור רך ומאיר
+${audienceTone}
+- flowers, light greenery, subtle movement, spring details
+- consistent style
+- visually appealing and clear
+
+13. הכותרת בעברית בראש התמונה צריכה להיות בדיוק:
+"${data.title || 'האביב מתעצב דרכך'}"
+
+14. אם משלבים טקסט בתמונה, יש להקפיד על טקסט חד, קריא ומדויק.
+
+15. חשוב מאוד:
+- הטקסט בעברית חייב להיות משולב בצורה מדויקת
+- ללא שגיאות כתיב
+- ללא שגיאות דקדוק
+- ללא אותיות חסרות
+- ללא הכפלות
+- RTL correct
+- clean readable Hebrew font
+
+16. בתחתית התמונה הוסף שורת ברכה קצרה:
+Line 1: חג אביב שמח
+Line 2: ${signature}`;
+    }
+
+    function buildRewritePrompt(data){
+      const rawParagraph = buildParagraph(data);
+      const toneLine = data.audienceMode === 'child'
+        ? '2. הפוך אותו לחם, זורם, עדין, בהיר ומתאים לילדים או לברכה על ילד/ה.'
+        : '2. הפוך אותו למקצועי, חם, אנושי וקולח.';
+
+      return `הטקסט הגולמי הוא:
+"${rawParagraph}"
+
+משימה:
+1. ערוך את הטקסט הגולמי כדי לשפר את התחביר, הזרימה והסגנון הלשוני.
+${toneLine}
+3. שמור על משמעות הליבה של הטקסט המקורי.
+4. אל תהפוך את הטקסט לרשימת תכונות.
+5. כתוב פסקה אחת רציפה, טבעית ומקושרת.
+6. הימנע מחזרות והימנע מהדבקה של מושגים כפי שהם.
+7. שמור על טון מכבד, אישי ומעורר השראה.
+8. החזר רק את הפסקה המשופרת בעברית.`;
+    }
+
+    function gatherData(){
+      return {
+        audienceMode: els.audienceMode.value,
+        characterMode: els.characterMode.value,
+        characterGender: els.characterGender.value,
+        ageHint: els.ageHint.value.trim(),
+        name: els.name.value.trim(),
+        role: els.role.value.trim(),
+        style: els.style.value,
+        flower: els.flower.value,
+        mood: els.mood.value,
+        title: els.titleChoice.value === 'כותרת מותאמת אישית' ? els.customTitle.value.trim() : els.titleChoice.value,
+        signature: els.signature.value.trim(),
+        traits: getCombinedValues(els.traitsBox, els.traitsOther),
+        strengths: getCombinedValues(els.strengthsBox, els.strengthsOther),
+        theme: els.theme.value.trim(),
+        edu: [...getCheckedValues(els.eduBox), els.eduOther.value.trim()].filter(Boolean).join(', '),
+        personal: [...getCheckedValues(els.personalBox), els.personalOther.value.trim()].filter(Boolean).join(', '),
+        spring: getCheckedValues(els.springBox),
+        symbols: getCheckedValues(els.symbolBox),
+        hobbiesVisual: getCombinedValues(els.hobbiesBox, els.hobbiesOther),
+        personalVisual: getCombinedValues(els.personalVisualBox, els.personalVisualOther),
+        visualSymbolsExtra: getCombinedValues(els.visualSymbolsBox, els.visualSymbolsOther)
+      };
+    }
+
+    function syncImageFieldVisibility(){
+      const withPhoto = els.characterMode.value === 'withPhoto';
+      els.imageUploadField.classList.toggle('hide', !withPhoto);
+      if (!withPhoto) {
+        els.imageInput.value = '';
+        uploadedImageSrc = '';
+      }
+      updatePrintPreview();
+    }
+
+    function updatePrintPreview(){
+      const currentTitle = els.titleChoice.value === 'כותרת מותאמת אישית'
+        ? els.customTitle.value.trim()
+        : els.titleChoice.value;
+
+      els.printPreviewName.textContent = els.name.value.trim() || 'שם הדמות';
+      els.printPreviewTagline.textContent = currentTitle || 'כותרת משנה';
+      if (!els.printPreviewParagraph.dataset.userEdited) {
+        els.printPreviewParagraph.value = els.paragraphOutput.value.trim() || 'כאן תופיע הפסקה שתיווצר באפליקציה, וניתן גם לערוך או להדביק אותה כאן.';
+      }
+      els.printPreviewFooter.textContent = els.printFooter.value.trim() || 'אביב תשפ״ו';
+
+      if(uploadedImageSrc){
+        els.printPreviewImage.src = uploadedImageSrc;
+        els.printPreviewImage.style.display = 'block';
+        els.printPlaceholder.style.display = 'none';
+      } else {
+        els.printPreviewImage.style.display = 'none';
+        els.printPlaceholder.style.display = 'flex';
+        els.printPlaceholder.textContent = els.characterMode.value === 'withPhoto'
+          ? 'אפשר להעלות תמונה כדי לראות את הדמות בעמוד ההדפסה.'
+          : 'מצב בלי תמונה פעיל — אפשר להשאיר מקום לאיור העתידי או להדפיס כך.';
+      }
+    }
+
+    function generate(){
+      const data = gatherData();
+      els.paragraphOutput.value = buildParagraph(data);
+      els.promptOutput.value = buildImagePrompt(data);
+      els.rewritePromptOutput.value = buildRewritePrompt(data);
+      updatePrintPreview();
+      setStatus('התוכן עודכן');
+    }
+
+    function resetForm(){
+      els.audienceMode.value = 'adult';
+      els.characterMode.value = 'withPhoto';
+      els.characterGender.value = 'female';
+      els.ageHint.value = '';
+      els.name.value = '';
+      els.role.value = '';
+      els.style.value = 'watercolor';
+      els.flower.value = 'שקדיה';
+      els.mood.value = 'רכה ומוארת';
+      els.titleChoice.value = 'האביב מתעצב דרכך';
+      els.customTitle.value = '';
+      els.customTitle.style.display = 'none';
+      els.signature.value = 'באהבה ובהערכה';
+      els.theme.value = 'spring renewal, growth, joy, and meaningful presence';
+      els.traitsOther.value = '';
+      els.strengthsOther.value = '';
+      els.eduOther.value = '';
+      els.personalOther.value = '';
+      els.hobbiesOther.value = '';
+      els.personalVisualOther.value = '';
+      els.visualSymbolsOther.value = '';
+      els.imageInput.value = '';
+      els.printFooter.value = 'אביב תשפ״ו';
+      els.printPreviewParagraph.dataset.userEdited = '';
+      uploadedImageSrc = '';
+
+      initStaticOptions();
+      refreshDynamicOptions();
+      syncImageFieldVisibility();
+      generate();
+    }
+
+    async function copyText(text, successMessage){
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          setStatus(successMessage);
+          return true;
+        }
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        temp.style.position = 'fixed';
+        temp.style.left = '-9999px';
+        temp.style.top = '0';
+        document.body.appendChild(temp);
+        temp.focus();
+        temp.select();
+        const ok = document.execCommand('copy');
+        document.body.removeChild(temp);
+        if(ok){
+          setStatus(successMessage);
+          return true;
+        }
+        throw new Error('copy failed');
+      } catch(e) {
+        setStatus('לא ניתן היה להעתיק אוטומטית. סמני והעתיקי ידנית.', true);
+        return false;
+      }
+    }
+
+    function downloadText(filename, text){
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    els.generateBtn.addEventListener('click', generate);
+    els.resetBtn.addEventListener('click', resetForm);
+
+    els.copyPrompt.addEventListener('click', async () => {
+      await copyText(els.promptOutput.value, 'פרומפט התמונה הועתק');
+    });
+
+    els.copyParagraph.addEventListener('click', async () => {
+      await copyText(els.paragraphOutput.value, 'הפסקה הועתקה');
+    });
+
+    els.copyRewritePrompt.addEventListener('click', async () => {
+      await copyText(els.rewritePromptOutput.value, 'פרומפט השכתוב הועתק');
+    });
+
+    els.downloadPrompt.addEventListener('click', () => {
+      const name = els.name.value.trim() || 'image_prompt';
+      downloadText(`${name}_image_prompt.txt`, els.promptOutput.value);
+      setStatus('פרומפט התמונה ירד לקובץ');
+    });
+
+    els.downloadParagraph.addEventListener('click', () => {
+      const name = els.name.value.trim() || 'paragraph';
+      downloadText(`${name}_raw_paragraph.txt`, els.paragraphOutput.value);
+      setStatus('הפסקה ירדה לקובץ');
+    });
+
+    els.downloadRewritePrompt.addEventListener('click', () => {
+      const name = els.name.value.trim() || 'rewrite_prompt';
+      downloadText(`${name}_rewrite_prompt.txt`, els.rewritePromptOutput.value);
+      setStatus('פרומפט השכתוב ירד לקובץ');
+    });
+
+    els.downloadAll.addEventListener('click', () => {
+      const name = els.name.value.trim() || 'spring_portrait';
+      const fullText =
+`פרומפט תמונה:
+${els.promptOutput.value}
+
+==============================
+
+פסקה גולמית:
+${els.paragraphOutput.value}
+
+==============================
+
+פרומפט שכתוב:
+${els.rewritePromptOutput.value}`;
+      downloadText(`${name}_full.txt`, fullText);
+      setStatus('הכל ירד לקובץ');
+    });
+
+    els.imageInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        uploadedImageSrc = ev.target.result;
+        updatePrintPreview();
+        setStatus('התמונה נטענה');
+      };
+      reader.readAsDataURL(file);
+    });
+
+    els.titleChoice.addEventListener('change', () => {
+      els.customTitle.style.display = els.titleChoice.value === 'כותרת מותאמת אישית' ? 'block' : 'none';
+      updatePrintPreview();
+    });
+
+    els.printFooter.addEventListener('input', updatePrintPreview);
+    els.name.addEventListener('input', updatePrintPreview);
+    els.customTitle.addEventListener('input', updatePrintPreview);
+
+    els.printPreviewParagraph.addEventListener('input', () => {
+      els.printPreviewParagraph.dataset.userEdited = '1';
+    });
+
+    els.audienceMode.addEventListener('change', () => {
+      refreshDynamicOptions();
+      generate();
+    });
+
+    els.characterMode.addEventListener('change', () => {
+      syncImageFieldVisibility();
+      generate();
+    });
+
+    els.characterGender.addEventListener('change', generate);
+    els.ageHint.addEventListener('input', generate);
+
+    els.printCardBtn.addEventListener('click', () => {
+      if (uploadedImageSrc) {
+        els.printOnlyImage.src = uploadedImageSrc;
+        els.printOnlyImage.style.display = 'block';
+        els.printOnlyPlaceholder.style.display = 'none';
+      } else {
+        els.printOnlyImage.style.display = 'none';
+        els.printOnlyPlaceholder.style.display = 'flex';
+        els.printOnlyPlaceholder.textContent = els.characterMode.value === 'withPhoto'
+          ? 'מקום שמור לתמונה'
+          : 'מקום שמור לאיור עתידי';
+      }
+
+      els.printOnlyName.textContent = els.printPreviewName.textContent;
+      els.printOnlyTagline.textContent = els.printPreviewTagline.textContent;
+      els.printOnlyParagraph.textContent = els.printPreviewParagraph.value;
+      els.printOnlyFooter.textContent = els.printPreviewFooter.textContent;
+
+      document.body.classList.add('print-mode');
+      requestAnimationFrame(() => {
+        window.print();
+        setTimeout(() => document.body.classList.remove('print-mode'), 300);
+      });
+    });
+
+    initStaticOptions();
+    refreshDynamicOptions();
+    syncImageFieldVisibility();
+    generate();
+  </script>
+</body>
+</html>
