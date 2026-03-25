@@ -16,8 +16,6 @@
       --sage:#7f9881;
       --success:#2f6f4f;
       --danger:#9f3a38;
-      --child:#f6efe3;
-      --child-accent:#f0c97d;
     }
 
     *{box-sizing:border-box}
@@ -72,13 +70,6 @@
       font-family:'Frank Ruhl Libre', serif;
       font-size:1.7rem;
       margin:0 0 18px;
-    }
-
-    .sub-section-title{
-      margin:22px 0 12px;
-      font-size:1rem;
-      font-weight:700;
-      color:var(--sage);
     }
 
     .grid-2,.grid-3,.grid-4{
@@ -232,13 +223,7 @@
 
     .status.error{color:var(--danger)}
 
-    .soft-box{
-      border:1px solid var(--line);
-      border-radius:18px;
-      background:#fffdf9;
-      padding:14px;
-      margin-bottom:14px;
-    }
+    .hidden{display:none !important;}
 
     .print-page{
       width:210mm;
@@ -292,11 +277,8 @@
       color:var(--muted);
       font-size:1.1rem;
       padding:24px;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(240,201,125,.18), transparent 20%),
-        radial-gradient(circle at 80% 22%, rgba(127,152,129,.12), transparent 18%),
-        radial-gradient(circle at 72% 78%, rgba(200,168,90,.12), transparent 16%),
-        linear-gradient(180deg, #fffdf9, #faf6ee);
+      background:#fff;
+      white-space:pre-line;
     }
 
     .print-text-wrap{
@@ -393,10 +375,6 @@
       display:none;
     }
 
-    .hide{
-      display:none !important;
-    }
-
     @media (max-width: 1200px){
       .layout{grid-template-columns:1fr}
       .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
@@ -443,7 +421,7 @@
   <div class="wrap">
     <div class="hero">
       <h1>מחולל פרומפטים ופסקאות לאיורי אביב</h1>
-      <p>עובד גם למבוגרים וגם לילדים, עם תמונה קיימת או בלי תמונה בכלל.</p>
+      <p>בחירת סגנון, מאפייני אביב ודמות — עם תמונה או בלי תמונה — ויצירת פרומפט תמונה, פסקה גולמית ופרומפט שכתוב נפרד.</p>
     </div>
 
     <div class="layout">
@@ -451,45 +429,43 @@
         <div class="card-inner">
           <h2 class="section-title">פרטי הדמות</h2>
 
-          <div class="soft-box">
-            <div class="grid-4">
-              <div class="field">
-                <label for="audienceMode">קהל יעד</label>
-                <select id="audienceMode">
-                  <option value="adult">מבוגר/ת</option>
-                  <option value="child">ילד / ילדה</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="characterMode">סוג יצירה</label>
-                <select id="characterMode">
-                  <option value="withPhoto">דמות עם תמונה</option>
-                  <option value="withoutPhoto">דמות בלי תמונה</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="characterGender">סוג הדמות</label>
-                <select id="characterGender">
-                  <option value="female">ילדה / אישה</option>
-                  <option value="male">ילד / איש</option>
-                  <option value="neutral">דמות כללית</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="ageHint">גיל משוער / שכבה</label>
-                <input id="ageHint" type="text" placeholder="למשל: בת 8 / כיתה ג׳ / מבוגרת">
-              </div>
+          <div class="grid-4">
+            <div class="field">
+              <label for="audienceMode">סוג קהל</label>
+              <select id="audienceMode">
+                <option value="adult">מבוגר/ת</option>
+                <option value="child">ילד/ה</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="characterMode">אופן יצירת התמונה</label>
+              <select id="characterMode">
+                <option value="withPhoto">עם תמונה של דמות</option>
+                <option value="withoutPhoto">ללא תמונה של דמות</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="genderMode">מגדר הדמות</label>
+              <select id="genderMode">
+                <option value="female">נקבה</option>
+                <option value="male">זכר</option>
+                <option value="neutral">ניטרלי</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="ageHint">גיל / שכבת גיל</label>
+              <input id="ageHint" type="text" placeholder="למשל: בת 9 / ילד בכיתה ג׳ / מבוגרת">
             </div>
           </div>
 
           <div class="grid-2">
             <div class="field">
               <label for="name">שם הדמות</label>
-              <input id="name" type="text" placeholder="למשל: רותי / נועה / יואב">
+              <input id="name" type="text" placeholder="למשל: רותי ירון / נועה / יואב">
             </div>
             <div class="field">
-              <label for="role">תפקיד / תיאור קצר</label>
-              <input id="role" type="text" placeholder="למשל: מורה / תלמידה סקרנית / רכזת / ילד שאוהב טבע">
+              <label for="role">תפקיד / תיאור</label>
+              <input id="role" type="text" placeholder="למשל: מדריכה ארצית / תלמידה סקרנית / ילד שאוהב טבע">
             </div>
           </div>
 
@@ -516,7 +492,7 @@
             </div>
             <div class="field">
               <label for="signature">חתימה / מי כותב את הברכה</label>
-              <input id="signature" type="text" value="באהבה ובהערכה" placeholder="למשל: באהבה ובהערכה / מאמא ואבא / מצוות הכיתה">
+              <input id="signature" type="text" value="באהבה ובהערכה" placeholder="למשל: באהבה ובהערכה / מצוות האגף / צוות...">
             </div>
           </div>
 
@@ -538,7 +514,7 @@
 
           <div class="field">
             <label for="theme">רעיון מרכזי של הדמות</label>
-            <input id="theme" type="text" value="spring renewal, growth, joy, and meaningful presence">
+            <input id="theme" type="text" value="spring renewal, growth, and meaningful human presence">
           </div>
 
           <div class="field">
@@ -642,7 +618,7 @@
               <div class="field" id="imageUploadField">
                 <label for="imageInput">העלאת תמונה</label>
                 <input id="imageInput" type="file" accept="image/*">
-                <div class="subtle">במצב "בלי תמונה" אפשר להשאיר ריק.</div>
+                <div class="subtle">במצב "ללא תמונה של דמות" אפשר להשאיר ריק.</div>
               </div>
               <div class="field">
                 <label for="printFooter">חתימת המסמך לעמוד ההדפסה</label>
@@ -662,7 +638,8 @@
           <div class="outbody" style="overflow:auto; background:#f7f4ee;">
             <div class="print-page">
               <div class="print-image-wrap">
-                <div class="print-placeholder" id="printPlaceholder">אפשר להעלות תמונה, או לעבוד בלי תמונה ולהשאיר מרחב לאיור העתידי.</div>
+                <div class="print-placeholder" id="printPlaceholder">העלי תמונה כדי לראות את עמוד ההדפסה
+או עבדי במצב ללא תמונה והשאירי מקום למסגרת/איור שייוצרו בהמשך</div>
                 <img id="printPreviewImage" style="display:none;" alt="">
               </div>
               <div class="print-text-wrap">
@@ -682,7 +659,7 @@
   <div class="print-only-area">
     <div class="print-page">
       <div class="print-image-wrap">
-        <div class="print-placeholder" id="printOnlyPlaceholder">מקום שמור לתמונה או לאיור</div>
+        <div class="print-placeholder" id="printOnlyPlaceholder">מקום לתמונה או למסגרת/איור אביבי</div>
         <img id="printOnlyImage" alt="" style="display:none;">
       </div>
       <div class="print-text-wrap">
@@ -697,13 +674,55 @@
 
   <script>
     const styleOptions = [
-      { id:'watercolor', label:'צבעי מים עדינים', adultPrompt:'Transform this photo into a delicate transparent watercolor illustration, loose wet-on-wet washes, spring flower garden feeling, soft bleeding edges.', childPrompt:'Create a delicate transparent watercolor illustration of the character, soft spring colors, gentle floral atmosphere, warm and child-friendly.' },
-      { id:'gouache', label:'גואש אלגנטי', adultPrompt:'Transform this photo into a refined gouache painting with rich layered textures, soft matte depth, and an elegant spring atmosphere.', childPrompt:'Create a rich gouache illustration of the character with soft matte textures, gentle spring details, charming and friendly.' },
-      { id:'editorial', label:'איור יוקרתי-מערכתי', adultPrompt:'Transform this photo into a refined semi-realistic editorial illustration, clean, luminous, modern, and elegant, with a sophisticated spring atmosphere.', childPrompt:'Create a clean semi-realistic illustration of the character, bright and polished, but still warm, friendly, and suitable for children.' },
-      { id:'pastel', label:'פסטל חלומי', adultPrompt:'Transform this photo into a dreamy soft pastel illustration, delicate petal-like brushstrokes, blooming spring atmosphere, warm cream and blush tones.', childPrompt:'Create a dreamy soft pastel illustration of the character, gentle spring petals, soft blush tones, sweet and magical but not exaggerated.' },
-      { id:'ghibli', label:'בהשראת ג׳יבלי', adultPrompt:'Transform this photo into a Studio Ghibli inspired illustration, lush spring meadow backdrop, warm natural lighting, expressive soft linework, whimsical botanical details.', childPrompt:'Create a Studio Ghibli inspired spring illustration of the character, joyful meadow, warm lighting, expressive face, whimsical natural details.' },
-      { id:'magazine', label:'שער מגזין', adultPrompt:'Transform this photo into a high-end editorial portrait, elegant, bright, modern, and striking, with a refined spring-inspired atmosphere.', childPrompt:'Create a bright polished portrait illustration of the character with cheerful spring styling, clear composition, and gentle joyful energy.' },
-      { id:'storybook', label:'ספר ילדים', adultPrompt:'Transform this photo into a soft illustrated children’s-book style portrait, clean outlines, warm spring details, elegant and gentle.', childPrompt:'Create a children’s-book illustration of the character, soft outlines, expressive face, spring flowers, joyful and inviting atmosphere.' }
+      {
+        id:'watercolor',
+        label:'צבעי מים עדינים',
+        adultPhoto:'Transform this photo into a delicate transparent watercolor illustration, loose wet-on-wet washes, spring flower garden feeling, soft bleeding edges.',
+        childPhoto:'Transform this photo into a delicate transparent watercolor illustration, soft spring colors, gentle floral atmosphere, child-friendly and warm.',
+        symbolic:'Create a delicate transparent watercolor spring composition with a refined botanical frame, soft blooming details, airy washes, and a clean bright center for text.'
+      },
+      {
+        id:'gouache',
+        label:'גואש אלגנטי',
+        adultPhoto:'Transform this photo into a refined gouache painting with rich layered textures, soft matte depth, and an elegant spring atmosphere.',
+        childPhoto:'Transform this photo into a refined gouache illustration with warm spring details, friendly expression, and gentle child-suitable charm.',
+        symbolic:'Create a refined gouache spring composition with elegant layered botanical details, gentle decorative corners, and a calm central area for text.'
+      },
+      {
+        id:'editorial',
+        label:'איור יוקרתי-מערכתי',
+        adultPhoto:'Transform this photo into a refined semi-realistic editorial illustration, clean, luminous, modern, and elegant, with a sophisticated spring atmosphere.',
+        childPhoto:'Transform this photo into a polished semi-realistic illustration, bright and spring-inspired, with a gentle friendly feeling suitable for children.',
+        symbolic:'Create a refined editorial-style spring page design with a delicate frame, elegant symbolic objects, luminous composition, and a clear text area in the center.'
+      },
+      {
+        id:'pastel',
+        label:'פסטל חלומי',
+        adultPhoto:'Transform this photo into a dreamy soft pastel illustration, delicate petal-like brushstrokes, blooming spring atmosphere, warm cream and blush tones.',
+        childPhoto:'Transform this photo into a dreamy soft pastel illustration, magical spring details, warm tones, soft petals, and a tender child-friendly atmosphere.',
+        symbolic:'Create a dreamy soft pastel spring frame with delicate petals, blush and cream tones, airy floral edges, and a luminous empty center for text.'
+      },
+      {
+        id:'ghibli',
+        label:'בהשראת ג׳יבלי',
+        adultPhoto:'Transform this photo into a Studio Ghibli inspired illustration, lush spring meadow backdrop, warm natural lighting, expressive soft linework, whimsical botanical details.',
+        childPhoto:'Transform this photo into a Studio Ghibli inspired illustration, joyful spring meadow, warm lighting, expressive linework, and gentle whimsical details suitable for children.',
+        symbolic:'Create a Studio Ghibli inspired spring composition with whimsical botanical framing, magical natural details, symbolic objects, and a clean center for a paragraph.'
+      },
+      {
+        id:'magazine',
+        label:'שער מגזין',
+        adultPhoto:'Transform this photo into a high-end editorial portrait, elegant, bright, modern, and striking, with a refined spring-inspired atmosphere.',
+        childPhoto:'Transform this photo into a bright polished spring portrait illustration with a soft modern look and a friendly child-suitable tone.',
+        symbolic:'Create a polished spring poster layout with an elegant floral frame, symbolic details that reflect the character, and a spacious clean central text zone.'
+      },
+      {
+        id:'storybook',
+        label:'ספר ילדים',
+        adultPhoto:'Transform this photo into a soft storybook illustration with spring details, gentle outlines, warmth, and elegance.',
+        childPhoto:'Transform this photo into a charming children’s-book illustration, warm spring setting, expressive soft linework, joyful and inviting.',
+        symbolic:'Create a children’s-book style spring frame with playful refined details, personalized symbolic objects, soft flowers, and a clear open space in the center for text.'
+      }
     ];
 
     const flowerOptions = ['שקדיה','כלנית','אירוס','נורית','צבעוני','פרחי בר','חרצית','חמנייה','אין פרח מרכזי'];
@@ -712,31 +731,31 @@
     const springElements = ['אור בוקר רך','עלי כותרת מרחפים','פרפרים','ציפורים רחוקות','שביל עדין','אופק פתוח','ענפים פורחים','נגיעות זהב עדינות','מרחב ירוק פתוח','שמיים בהירים','דשא רענן'];
     const symbolicElements = ['ספר פתוח','אור רך / הילה','מצפן','קווי חיבור עדינים','שבילים משתלבים','אלמנט של קהילה','רמז לטכנולוגיה/חדשנות','אדמה / שורשים','אופק רחב','לב עדין','כוכבים קטנים','ללא סמלים נוספים'];
 
-    const adultTraits = ['חכמה','אנושית','מקצועית','רגישה','ערכית','יצירתית','מדויקת','חייכנית','צנועה','נבונה','מעצימה','עניינית','נעימת הליכות','מחברת','חמה','אכפתית','בעלת חזון','מנהיגה','סבלנית','יסודית'];
-    const childTraits = ['סקרנ/ית','שמח/ה','רגיש/ה','יצירתי/ת','אמיץ/ה','חולמ/ת','טוב/ת לב','סבלנ/ית','חברתי/ת','חייכנ/ית','חכם/ה','עדינ/ה','מלא/ת דמיון','אנרגטי/ת','אוהב/ת לעזור','מתבוננ/ת','נעים/ה','בטוח/ה בעצמו/ה'];
+    const adultTraitOptions = ['חכמה','אנושית','מקצועית','רגישה','ערכית','יצירתית','מדויקת','חייכנית','צנועה','נבונה','מעצימה','עניינית','נעימת הליכות','מחברת','חמה','אכפתית','בעלת חזון','מנהיגה','סבלנית','יסודית'];
+    const childTraitOptions = ['סקרנ/ית','שמח/ה','רגיש/ה','יצירתי/ת','אמיצ/ה','חולמ/ת','טוב/ת לב','חייכנ/ית','חברתי/ת','מתבוננ/ת','אוהב/ת ללמוד','מלא/ת דמיון','סבלנ/ית','נעים/ה','מלא/ת חיים'];
 
-    const adultStrengths = ['ראייה רחבה','יכולת להוביל','נוכחות חמה','חיבור לאנשים','יצירת סדר','דיוק','יכולת להניע תהליכים','אמונה באנשים','חיבור לשטח','יצירת שותפות','בהירות מחשבה','העצמת אחרים','יציבות','רגישות אנושית','אחריות','יכולת לחבר בין חלקים','מחויבות','עומק'];
-    const childStrengths = ['דמיון עשיר','לב טוב','אומץ לנסות','יכולת לשתף','שמחת חיים','סקרנות טבעית','אהבה ללמידה','יכולת להתמיד','חיבור לחברים','יכולת להבחין בפרטים','יצירתיות','עדינות','ביטוי עצמי','נוכחות נעימה','אהבה לטבע'];
+    const adultStrengthOptions = ['ראייה רחבה','יכולת להוביל','נוכחות חמה','חיבור לאנשים','יצירת סדר','דיוק','יכולת להניע תהליכים','אמונה באנשים','חיבור לשטח','יצירת שותפות','בהירות מחשבה','העצמת אחרים','יציבות','רגישות אנושית','אחריות','יכולת לחבר בין חלקים','מחויבות','עומק'];
+    const childStrengthOptions = ['דמיון עשיר','לב טוב','אומץ לנסות','יכולת לשתף','שמחת חיים','סקרנות טבעית','אהבה ללמידה','יכולת להתמיד','חיבור לחברים','יכולת להבחין בפרטים','יצירתיות','עדינות','ביטוי עצמי','נוכחות נעימה','אהבה לטבע'];
 
-    const adultEdu = ['מחברת בין אנשים, רעיונות ועשייה','פועלת מתוך רגישות ואחריות','מובילה תהליכים מתוך בהירות ואמון','יוצרת מרחב שבו אפשר לצמוח','מחוברת לשטח החינוכי','מסייעת לדברים להתנהל נכון וביציבות','מקדמת למידה, התפתחות והתחדשות','מאפשרת לאנשים למצוא את מקומם','מחזקת תחושת שייכות ושותפות','פותחת דרכים חדשות לחשיבה ולעשייה'];
-    const childEdu = ['אוהב/ת לגלות דברים חדשים','לומד/ת מתוך סקרנות ושמחה','אוהב/ת לשתף פעולה','נהנ/ית ממשחק ולמידה','מביא/ה לב טוב לחברים','מתפתח/ת צעד אחר צעד','מוצא/ת דרכים יצירתיות לחשוב','נהנ/ית לעזור לאחרים','פורח/ת כשהסביבה מעודדת','מביא/ה אור ונוכחות טובה'];
+    const adultEduOptions = ['מחברת בין אנשים, רעיונות ועשייה','פועלת מתוך רגישות ואחריות','מובילה תהליכים מתוך בהירות ואמון','יוצרת מרחב שבו אפשר לצמוח','מחוברת לשטח החינוכי','מסייעת לדברים להתנהל נכון וביציבות','מקדמת למידה, התפתחות והתחדשות','מאפשרת לאנשים למצוא את מקומם','מחזקת תחושת שייכות ושותפות','פותחת דרכים חדשות לחשיבה ולעשייה'];
+    const childEduOptions = ['אוהב/ת לגלות דברים חדשים','לומד/ת מתוך סקרנות ושמחה','אוהב/ת לשתף פעולה','נהנ/ית ממשחק ולמידה','מביא/ה לב טוב לחברים','מתפתח/ת צעד אחר צעד','מוצא/ת דרכים יצירתיות לחשוב','נהנ/ית לעזור לאחרים','פורח/ת כשהסביבה מעודדת','מביא/ה אור ונוכחות טובה'];
 
-    const adultPersonal = ['משפחתית','אוהבת טבע','טיולים בישראל','טיולים בעולם','אוהבת ספורט','אוהבת ריקוד','אוהבת בעלי חיים','שומרת מצוות','אוהבת אקטואליה','מעורבת חברתית','אוהבת ללמוד ולהתפתח','מחוברת לקהילה','סבתא','אשת משפחה מסורה','אוהבת אנשים'];
-    const childPersonal = ['אוהב/ת טבע','אוהב/ת לצייר','אוהב/ת לקרוא','אוהב/ת לשחק','אוהב/ת לרקוד','אוהב/ת מוזיקה','אוהב/ת בעלי חיים','אוהב/ת לעזור בבית','אוהב/ת חברים','אוהב/ת לטייל','אוהב/ת להמציא סיפורים','אוהב/ת לבנות דברים'];
+    const adultPersonalOptions = ['משפחתית','אוהבת טבע','טיולים בישראל','טיולים בעולם','אוהבת ספורט','אוהבת ריקוד','אוהבת בעלי חיים','שומרת מצוות','אוהבת אקטואליה','מעורבת חברתית','אוהבת ללמוד ולהתפתח','מחוברת לקהילה','סבתא','אשת משפחה מסורה','אוהבת אנשים'];
+    const childPersonalOptions = ['אוהב/ת טבע','אוהב/ת לצייר','אוהב/ת לקרוא','אוהב/ת לשחק','אוהב/ת לרקוד','אוהב/ת מוזיקה','אוהב/ת בעלי חיים','אוהב/ת לעזור בבית','אוהב/ת חברים','אוהב/ת לטייל','אוהב/ת להמציא סיפורים','אוהב/ת לבנות דברים'];
 
-    const adultHobbies = ['טיולים בישראל','טיולים בעולם','טבע','ריקוד','ספורט','קריאה','כתיבה','עיצוב','בישול ואירוח','מוזיקה','אקטואליה','למידה והתפתחות','צילום','קהילה','בעלי חיים'];
-    const childHobbies = ['ציור','צביעה','משחק','קריאה','ריקוד','כדורגל','בניית לגו','מוזיקה','טבע','בעלי חיים','אופניים','יצירה','דמיון וסיפורים','צילום','גן שעשועים'];
+    const adultHobbyOptions = ['טיולים בישראל','טיולים בעולם','טבע','ריקוד','ספורט','קריאה','כתיבה','עיצוב','בישול ואירוח','מוזיקה','אקטואליה','למידה והתפתחות','צילום','קהילה','בעלי חיים'];
+    const childHobbyOptions = ['ציור','צביעה','משחק','קריאה','ריקוד','כדורגל','בניית לגו','מוזיקה','טבע','בעלי חיים','אופניים','יצירה','דמיון וסיפורים','צילום','גן שעשועים'];
 
-    const adultPersonalVisual = ['משפחתיות','ילדים בוגרים','נכדים','כלב','חתול','חיבור לקהילה','שורשיות','בית חם','מעורבות חברתית','שומרת מצוות','חיבור לטבע','חיבור לארץ','העצמת נשים','נדיבות','חום אנושי'];
-    const childPersonalVisual = ['חיוך גדול','תיק קטן','ספר אהוב','כדור','עפרונות צבעוניים','כלב','חתול','פרפרים סביב הדמות','פרחים בשיער','כובע אביבי','מבט סקרן','ידיים פעילות','חיבור לטבע','לב טוב','שמחת משחק'];
+    const adultPersonalVisualOptions = ['משפחתיות','ילדים בוגרים','נכדים','כלב','חתול','חיבור לקהילה','שורשיות','בית חם','מעורבות חברתית','שומרת מצוות','חיבור לטבע','חיבור לארץ','העצמת נשים','נדיבות','חום אנושי'];
+    const childPersonalVisualOptions = ['חיוך גדול','תיק קטן','ספר אהוב','כדור','עפרונות צבעוניים','כלב','חתול','פרפרים סביב הדמות','פרחים בשיער','כובע אביבי','מבט סקרן','ידיים פעילות','חיבור לטבע','לב טוב','שמחת משחק'];
 
-    const adultVisualSymbols = ['ספר פתוח','מצפן','שבילים','קווי חיבור','הילה של אור','אופק פתוח','פרפרים','ציפורים','ענפים פורחים','מחשב / חדשנות','מגן / יציבות','קלף מעוצב','ארבע כוסות','פרחים סביב הדמות','מעגלי קהילה'];
-    const childVisualSymbols = ['ספר פתוח','קשת עדינה','כוכבים קטנים','פרפרים','פרחים סביב הדמות','עפיפון','בלונים עדינים','שביל קטן','שמש רכה','ציפורים','לבבות קטנים','עפרונות צבעוניים','עננים רכים','גן פרחים'];
+    const adultVisualSymbolOptions = ['ספר פתוח','מצפן','שבילים','קווי חיבור','הילה של אור','אופק פתוח','פרפרים','ציפורים','ענפים פורחים','מחשב / חדשנות','מגן / יציבות','קלף מעוצב','ארבע כוסות','פרחים סביב הדמות','מעגלי קהילה'];
+    const childVisualSymbolOptions = ['ספר פתוח','קשת עדינה','כוכבים קטנים','פרפרים','פרחים סביב הדמות','עפיפון','בלונים עדינים','שביל קטן','שמש רכה','ציפורים','לבבות קטנים','עפרונות צבעוניים','עננים רכים','גן פרחים'];
 
     const els = {
       audienceMode: document.getElementById('audienceMode'),
       characterMode: document.getElementById('characterMode'),
-      characterGender: document.getElementById('characterGender'),
+      genderMode: document.getElementById('genderMode'),
       ageHint: document.getElementById('ageHint'),
       style: document.getElementById('style'),
       flower: document.getElementById('flower'),
@@ -823,16 +842,26 @@
       });
     }
 
-    function getCurrentSets(){
-      const audience = els.audienceMode.value;
+    function getCurrentOptionSets(){
+      if (els.audienceMode.value === 'child') {
+        return {
+          traits: childTraitOptions,
+          strengths: childStrengthOptions,
+          edu: childEduOptions,
+          personal: childPersonalOptions,
+          hobbies: childHobbyOptions,
+          personalVisual: childPersonalVisualOptions,
+          visualSymbols: childVisualSymbolOptions
+        };
+      }
       return {
-        traits: audience === 'child' ? childTraits : adultTraits,
-        strengths: audience === 'child' ? childStrengths : adultStrengths,
-        edu: audience === 'child' ? childEdu : adultEdu,
-        personal: audience === 'child' ? childPersonal : adultPersonal,
-        hobbies: audience === 'child' ? childHobbies : adultHobbies,
-        personalVisual: audience === 'child' ? childPersonalVisual : adultPersonalVisual,
-        visualSymbols: audience === 'child' ? childVisualSymbols : adultVisualSymbols
+        traits: adultTraitOptions,
+        strengths: adultStrengthOptions,
+        edu: adultEduOptions,
+        personal: adultPersonalOptions,
+        hobbies: adultHobbyOptions,
+        personalVisual: adultPersonalVisualOptions,
+        visualSymbols: adultVisualSymbolOptions
       };
     }
 
@@ -846,24 +875,15 @@
       fillChecks(els.symbolBox, symbolicElements, ['ספר פתוח','אור רך / הילה','קווי חיבור עדינים']);
     }
 
-    function refreshDynamicOptions(){
-      const sets = getCurrentSets();
-      fillChecks(els.traitsBox, sets.traits, sets.traits.slice(0, 3));
-      fillChecks(els.strengthsBox, sets.strengths, sets.strengths.slice(0, 3));
-      fillChecks(els.eduBox, sets.edu, []);
-      fillChecks(els.personalBox, sets.personal, []);
-      fillChecks(els.hobbiesBox, sets.hobbies, []);
-      fillChecks(els.personalVisualBox, sets.personalVisual, []);
-      fillChecks(els.visualSymbolsBox, sets.visualSymbols, []);
-
-      if (els.audienceMode.value === 'child') {
-        if (!els.role.value.trim()) els.role.placeholder = 'למשל: תלמידה סקרנית / ילד שאוהב לצייר / ילדה שאוהבת בעלי חיים';
-        if (!els.theme.value.trim() || els.theme.value.includes('meaningful human presence')) {
-          els.theme.value = 'spring joy, curiosity, growth, imagination, and warm presence';
-        }
-      } else {
-        if (!els.role.value.trim()) els.role.placeholder = 'למשל: מדריכה ארצית / מנהלת אגף / רכזת / דמות חינוכית';
-      }
+    function initDynamicOptions(){
+      const set = getCurrentOptionSets();
+      fillChecks(els.traitsBox, set.traits, set.traits.slice(0, 3));
+      fillChecks(els.strengthsBox, set.strengths, set.strengths.slice(0, 3));
+      fillChecks(els.eduBox, set.edu, []);
+      fillChecks(els.personalBox, set.personal, []);
+      fillChecks(els.hobbiesBox, set.hobbies, []);
+      fillChecks(els.personalVisualBox, set.personalVisual, []);
+      fillChecks(els.visualSymbolsBox, set.visualSymbols, []);
     }
 
     function setStatus(msg, isError=false){
@@ -906,44 +926,48 @@
 
     function buildFlowerSentence(flower){
       const map = {
-        'שקדיה':'כמו השקדיה הפורחת בעדינות ובאור,',
+        'שקדיה':'כמו השקדיה הפורחת בעיתוי מדויק,',
         'כלנית':'כמו כלנית הנפתחת במלוא נוכחותה,',
         'אירוס':'כמו האירוס האצילי הניצב ביופי שקט,',
         'נורית':'כמו נורית הצומחת בשדה פתוח ומלא חיים,',
         'צבעוני':'כמו הצבעוני הזקוף והמאוזן,',
         'פרחי בר':'כמו פרחי הבר הנעים ברוח,',
         'חרצית':'כמו החרצית הפשוטה והמאוזנת,',
-        'חמנייה':'כמו חמנייה הפונה אל האור,',
+        'חמנייה':'כמו החמנייה הפונה תמיד אל האור,',
         'אין פרח מרכזי':'כמו מרחב אביבי הנפתח אל האור,'
       };
       return map[flower] || 'כמו מרחב אביבי הנפתח אל האור,';
     }
 
-    function getSubjectWord(data){
-      const audience = data.audienceMode;
-      const gender = data.characterGender;
-      if (audience === 'child') {
-        if (gender === 'male') return 'אתה';
-        if (gender === 'neutral') return 'הדמות';
-        return 'את';
-      } else {
-        if (gender === 'male') return 'אתה';
-        if (gender === 'neutral') return 'הדמות';
-        return 'את';
+    function getPronouns(gender){
+      if (gender === 'male') {
+        return {
+          bring: 'אתה מביא איתך',
+          create: 'אתה יוצר',
+          act: 'אתה פועל',
+          allow: 'ומאפשר',
+          reflect: 'משקפים את הדרך שבה אתה',
+          pronounSuffix: ''
+        };
       }
-    }
-
-    function getSubjectNoun(data){
-      const audience = data.audienceMode;
-      const gender = data.characterGender;
-      if (audience === 'child') {
-        if (gender === 'male') return 'ילד';
-        if (gender === 'neutral') return 'ילד/ה';
-        return 'ילדה';
+      if (gender === 'neutral') {
+        return {
+          bring: 'הדמות מביאה איתה',
+          create: 'הדמות יוצרת',
+          act: 'הדמות פועלת',
+          allow: 'ומאפשרת',
+          reflect: 'משקפים את הדרך שבה הדמות',
+          pronounSuffix: ''
+        };
       }
-      if (gender === 'male') return 'איש';
-      if (gender === 'neutral') return 'דמות';
-      return 'אישה';
+      return {
+        bring: 'את מביאה איתך',
+        create: 'את יוצרת',
+        act: 'את פועלת',
+        allow: 'ומאפשרת',
+        reflect: 'משקפים את הדרך שבה את',
+        pronounSuffix: ''
+      };
     }
 
     function buildParagraph(data){
@@ -954,90 +978,189 @@
       const eduParts = (data.edu || '').split(',').map(s => s.trim()).filter(Boolean).slice(0,2);
       const personalParts = (data.personal || '').split(',').map(s => s.trim()).filter(Boolean).slice(0,3);
       const flowerSentence = buildFlowerSentence(data.flower);
-      const subject = getSubjectWord(data);
+      const p = getPronouns(data.genderMode);
 
       if (data.audienceMode === 'child') {
-        const line1 = `${title}${name ? `, ${name},` : ''} מתגלה מתוך ${joinHebrew(traits) || 'סקרנות, שמחה ונוכחות טובה'}.`;
-        const line2 = `${flowerSentence} ${data.ageHint ? `${data.ageHint}, ` : ''}${subject} מביא/ה איתך ${joinHebrew(strengths) || 'דמיון, לב טוב ואור מיוחד'} ונותנ/ת לדברים לפרוח בדרך נעימה ומשמחת.`;
+        const line1 = `${title}${name ? `, ${name},` : ''} מתגלה מתוך ${joinHebrew(traits) || 'שמחה, סקרנות ולב טוב'}.`;
+        const line2 = `${flowerSentence} ${data.ageHint ? `${data.ageHint}, ` : ''}${p.bring} ${joinHebrew(strengths) || 'דמיון, אור ושמחת חיים'} ${p.allow} לדברים לפרוח בדרך עדינה ומשמחת.`;
         const line3 = eduParts.length
-          ? `${joinHebrew(eduParts)} משקפים את הדרך שבה ${subject} פועל/ת בעולם — ברגישות, בחיוך ובסקרנות טבעית.`
-          : `האור, הפרחים והתנועה האביבית משקפים את הדרך שבה ${subject} מביא/ה שמחה, דמיון וחום אנושי אל הסביבה.`;
+          ? `${joinHebrew(eduParts)} משקפים את הדרך שבה ${data.genderMode === 'male' ? 'אתה' : data.genderMode === 'neutral' ? 'הדמות' : 'את'} פועל${data.genderMode === 'male' ? '' : 'ת'} בעולם מתוך חום, רגישות וסקרנות טבעית.`
+          : 'האור, הפרחים והתנועה האביבית משקפים דרך שיש בה דמיון, חום ויופי קטן של יום־יום.';
         const line4 = personalParts.length
-          ? `מתוך ${joinHebrew(personalParts)} ונוכחות לבבית, ${subject} יוצר/ת סביבו/ה מרחב שיש בו גדילה, קרבה ויופי קטן של יום־יום.`
-          : `מתוך נוכחות לבבית, ${subject} יוצר/ת סביבו/ה מרחב שיש בו גדילה, שמחה ויופי קטן של יום־יום.`;
+          ? `מתוך ${joinHebrew(personalParts)} ונוכחות לבבית, ${data.genderMode === 'male' ? 'אתה יוצר' : data.genderMode === 'neutral' ? 'הדמות יוצרת' : 'את יוצרת'} סביבך מרחב שיש בו קרבה, צמיחה ושמחה.`
+          : `מתוך נוכחות לבבית, ${data.genderMode === 'male' ? 'אתה יוצר' : data.genderMode === 'neutral' ? 'הדמות יוצרת' : 'את יוצרת'} סביבך מרחב שיש בו קרבה, צמיחה ושמחה.`;
         return [line1, line2, line3, line4].join('\n');
       }
 
       const line1 = `${title}${name ? `, ${name},` : ''} מתגלה מתוך ${joinHebrew(traits) || 'עומק, בהירות ונוכחות'}.`;
-      const line2 = `${flowerSentence} ${data.role ? `${data.role ? `בתפקידך כ${data.role}, ` : ''}` : ''}${subject} מביא/ה איתך ${joinHebrew(strengths) || 'ראייה רחבה, אנושיות ויכולת להוביל'} ומאפשר/ת לדברים להיפתח, להתבהר ולהתקדם.`;
+      const line2 = `${flowerSentence} ${data.role ? `${data.genderMode === 'male' ? 'בתפקידך כ' : data.genderMode === 'neutral' ? 'בתיאור של ' : 'בתפקידך כ'}${data.role}, ` : ''}${p.bring} ${joinHebrew(strengths) || 'ראייה רחבה, אנושיות ויכולת להוביל'} ${p.allow} לדברים להיפתח, להתבהר ולהתקדם.`;
       const line3 = eduParts.length
-        ? `${joinHebrew(eduParts)} משקפים את הדרך שבה ${subject} פועל/ת מתוך רגישות, אחריות וחיבור אמיתי לאנשים ולשטח.`
-        : `האור, השביל והמרחב הפתוח משקפים את הדרך שבה ${subject} מחבר/ת בין אנשים, רעיונות ועשייה — ומאפשר/ת צמיחה שיש בה משמעות.`;
+        ? `${joinHebrew(eduParts)} משקפים את הדרך שבה ${data.genderMode === 'male' ? 'אתה' : data.genderMode === 'neutral' ? 'הדמות' : 'את'} פועל${data.genderMode === 'male' ? '' : 'ת'} מתוך רגישות, אחריות וחיבור אמיתי לאנשים ולשטח.`
+        : 'האור, השביל והמרחב הפתוח משקפים את הדרך שבה נוצרת צמיחה שיש בה משמעות וחיבור אנושי.';
       const line4 = personalParts.length
-        ? `מתוך ${joinHebrew(personalParts)} ונוכחות אנושית חמה, ${subject} יוצר/ת מרחב שבו הדברים מסתדרים — וממשיכים לצמוח בדרך שיש בה משמעות.`
-        : `מתוך נוכחות אנושית חמה, ${subject} יוצר/ת מרחב שבו הדברים מסתדרים — וממשיכים לצמוח בדרך שיש בה משמעות.`;
+        ? `מתוך ${joinHebrew(personalParts)} ונוכחות אנושית חמה, ${p.create} מרחב שבו הדברים מסתדרים — וממשיכים לצמוח בדרך שיש בה משמעות.`
+        : `מתוך נוכחות אנושית חמה, ${p.create} מרחב שבו הדברים מסתדרים — וממשיכים לצמוח בדרך שיש בה משמעות.`;
 
       return [line1, line2, line3, line4].join('\n');
     }
 
     function getStylePrompt(data){
       const style = styleOptions.find(s => s.id === data.style) || styleOptions[0];
-      if (data.characterMode === 'withPhoto') {
-        return data.audienceMode === 'child' ? style.childPrompt : style.adultPrompt;
+
+      if (data.characterMode === 'withoutPhoto') {
+        return style.symbolic;
       }
-      return (data.audienceMode === 'child'
-        ? style.childPrompt
-        : style.adultPrompt
-      ).replace(/^Transform this photo into /i, 'Create ');
+
+      if (data.audienceMode === 'child') {
+        return style.childPhoto;
+      }
+
+      return style.adultPhoto;
     }
 
     function getCharacterPromptLine(data){
-      const gender = data.characterGender;
       const audience = data.audienceMode;
+      const gender = data.genderMode;
+
       if (audience === 'child') {
-        if (gender === 'male') return 'child boy smiling gently at the center';
+        if (gender === 'male') return 'boy smiling gently at the center';
         if (gender === 'neutral') return 'child character smiling gently at the center';
-        return 'child girl smiling gently at the center';
+        return 'girl smiling gently at the center';
       }
+
       if (gender === 'male') return 'man smiling gently at the center';
       if (gender === 'neutral') return 'character smiling gently at the center';
       return 'woman smiling gently at the center';
     }
 
+    function getCharacterTypeLabel(data){
+      if (data.audienceMode === 'child') {
+        if (data.genderMode === 'male') return 'child boy';
+        if (data.genderMode === 'neutral') return 'child character';
+        return 'child girl';
+      }
+      if (data.genderMode === 'male') return 'man';
+      if (data.genderMode === 'neutral') return 'person / character';
+      return 'woman';
+    }
+
     function buildImagePrompt(data){
       const style = getStylePrompt(data);
       const flower = data.flower === 'אין פרח מרכזי'
-        ? 'no single dominant flower, use a soft spring landscape with subtle blossoms'
+        ? 'no single dominant flower, use a soft spring botanical atmosphere'
         : data.flower;
       const spring = data.spring.length ? data.spring.map(s => `- ${s}`).join('\n') : '- אור בוקר רך';
       const symbols = data.symbols.length ? data.symbols.map(s => `- ${s}`).join('\n') : '- קווי חיבור עדינים';
       const signature = data.signature || 'באהבה ובהערכה';
+
       const hobbiesVisual = joinHebrew(pickTop(data.hobbiesVisual || [], 4));
       const personalVisual = joinHebrew(pickTop(data.personalVisual || [], 4));
       const visualSymbolsExtra = joinHebrew(pickTop(data.visualSymbolsExtra || [], 5));
-      const charLine = getCharacterPromptLine(data);
-      const subjectNoun = getSubjectNoun(data);
       const ageLine = data.ageHint ? `Age cue: ${data.ageHint}` : '';
+      const characterType = getCharacterTypeLabel(data);
+
+      if (data.characterMode === 'withoutPhoto') {
+        return `3. סגנון התמונה:
+${style}
+
+4. אין תמונה של דמות.
+אין ליצור פנים אקראיות, פורטרט אקראי, גוף שלם או דמות גנרית.
+במקום זאת, צרו קומפוזיציה אביבית סמלית ומעוצבת שמבטאת את האישיות והמאפיינים של הדמות דרך אובייקטים, סמלים, טבע, צבעוניות ופרטים חזותיים.
+
+5. קומפוזיציה:
+- poster vertical composition, A4 ratio
+- elegant spring frame around the page
+- delicate botanical border
+- leave a large clean central area for inserting a Hebrew paragraph later
+- the center must stay visually calm, bright, readable, and not busy
+- decorations should appear mostly around the edges, corners, top, and bottom
+- no random portrait
+- no face
+- no full body
+- no human figure unless explicitly symbolized in a very abstract and minimal way
+
+6. הרעיון המרכזי:
+Central theme: ${data.theme || 'spring renewal, growth, and meaningful human presence'}.
+This is not a portrait.
+This is a symbolic illustrated page design inspired by the character.
+Key flower: ${flower}.
+Character type: ${characterType}
+${ageLine}
+
+7. מאפייני אביב שיש לשלב:
+${spring}
+
+8. אלמנטים סמליים כלליים שיש לשלב בעדינות:
+${symbols}
+
+9. מאפייני הדמות שצריכים לבוא לידי ביטוי חזותי:
+Occupation / short description: ${data.role || 'דמות עם נוכחות אביבית'}
+Personality traits: ${joinHebrew(data.traits) || 'חכמה, אנושית ומקצועית'}
+Core strengths: ${joinHebrew(data.strengths) || 'ראייה רחבה, יכולת להוביל ונוכחות חמה'}
+Personal touches: ${data.personal || 'ללא פרטים נוספים'}
+Overall mood: ${data.mood || 'רכה ומוארת'}
+
+10. רכיבים אישיים שחייבים להופיע חזותית בתוך המסגרת:
+תחביבים ותחומי עניין להמחשה חזותית:
+${hobbiesVisual || 'ללא תחביבים נוספים'}
+
+פרטים אישיים עדינים שישתקפו בתמונה:
+${personalVisual || 'ללא פרטים אישיים נוספים'}
+
+סמלים חזותיים מאפיינים שישולבו בקומפוזיציה:
+${visualSymbolsExtra || 'ללא סמלים נוספים'}
+
+11. חשוב:
+- הרכיבים האישיים חייבים להופיע בתמונה עצמה, לא רק כרעיון מופשט
+- יש לבטא את הדמות דרך סמלים, חפצים, אלמנטים מהטבע, תנועה, צבעוניות ופרטים קטנים
+- אפשר לשלב אותם במסגרת, בפינות, בשוליים, ברקע העליון או התחתון
+- לשמור על מרכז נקי ונוח להכנסת טקסט
+- do not generate a random person
+- do not generate a generic portrait
+- create a symbolic personalized spring composition instead
+
+12. התמונה צריכה לכלול:
+- מסגרת אביבית עדינה ומעוצבת
+- פרחים, ענפים, עלים, תנועה קלה, אור רך
+- רכיבים שמאפיינים את הדמות באופן חזותי
+- מרכז בהיר ונקי עבור פסקה בעברית שתתווסף אחר כך
+- elegant, airy, refined composition
+- balanced visual weight around the page
+- not overloaded
+- suitable for adding a paragraph in the middle
+
+13. הכותרת בעברית בראש התמונה צריכה להיות בדיוק:
+"${data.title || 'האביב מתעצב דרכך'}"
+
+14. אם משלבים טקסט בתמונה, יש להקפיד על טקסט חד, קריא ומדויק.
+
+15. חשוב מאוד:
+- הטקסט בעברית חייב להיות משולב בצורה מדויקת
+- ללא שגיאות כתיב
+- ללא שגיאות דקדוק
+- ללא אותיות חסרות
+- ללא הכפלות
+- RTL correct
+- clean readable Hebrew font
+
+16. בתחתית התמונה הוסף שורת ברכה קצרה:
+Line 1: חג אביב שמח
+Line 2: ${signature}`;
+      }
+
+      const charLine = getCharacterPromptLine(data);
       const audienceTone = data.audienceMode === 'child'
-        ? '- atmosphere should feel joyful, warm, imaginative, gentle, and suitable for children\n- avoid overly formal, severe, or overly mature styling\n- keep the expression lively, kind, and natural'
-        : '- atmosphere should feel elegant, warm, human, professional, and hopeful\n- avoid childish exaggeration\n- keep the expression refined and natural';
-
-      const photoInstruction = data.characterMode === 'withPhoto'
-        ? `4. שמור/י על תווי הפנים והדמיון המדויק של הדמות המקורית.`
-        : `4. אין תמונה מקורית. צרו דמות מקורית בהתאם לתיאור, בלי להתבסס על צילום קיים ובלי לכתוב הוראות לשימור תווי פנים.`;
-
-      const compositionExtras = data.characterMode === 'withPhoto'
-        ? '- preserve recognisable facial identity from the original uploaded image'
-        : '- create an original character design based on the written description only';
-
-      const imageNeedle = data.characterMode === 'withPhoto'
-        ? 'If a reference photo exists, use it faithfully.'
-        : 'No reference photo exists. Build the visual character from the written description only.';
+        ? `- atmosphere should feel joyful, warm, imaginative, gentle, and suitable for children
+- avoid overly formal, severe, or overly mature styling
+- keep the expression lively, kind, and natural`
+        : `- atmosphere should feel elegant, warm, human, professional, and hopeful
+- avoid childish exaggeration
+- keep the expression refined and natural`;
 
       return `3. סגנון התמונה:
 ${style}
 
-${photoInstruction}
+4. שמור/י על תווי הפנים והדמיון המדויק של הדמות המקורית.
 
 5. קומפוזיציה:
 - poster vertical composition, A4 ratio
@@ -1049,11 +1172,12 @@ ${photoInstruction}
 - leave clear space for the main paragraph in the lower part of the image
 - no close-up, no full body
 - balanced margins on both sides
-${compositionExtras}
+- preserve recognisable facial identity from the original uploaded image
 
 6. הרעיון המרכזי:
-Central theme: ${data.theme || 'spring renewal, growth, joy, and meaningful presence'}.
+Central theme: ${data.theme || 'spring renewal, growth, and meaningful human presence'}.
 Key flower: ${flower}.
+Character type: ${characterType}
 ${ageLine}
 
 7. מאפייני אביב שיש לשלב:
@@ -1063,12 +1187,11 @@ ${spring}
 ${symbols}
 
 9. פרטי הדמות:
-Character type: ${subjectNoun}
-Occupation / short description: ${data.role || 'דמות עם נוכחות אביבית'}
+Occupation / short description: ${data.role || 'דמות חינוכית'}
 Personality traits: ${joinHebrew(data.traits) || 'חכמה, אנושית ומקצועית'}
 Core strengths: ${joinHebrew(data.strengths) || 'ראייה רחבה, יכולת להוביל ונוכחות חמה'}
 Personal touches: ${data.personal || 'ללא פרטים נוספים'}
-Overall mood: ${data.mood || 'רכה ומוארת'}
+Overall mood: ${data.mood || 'אלגנטית ומדויקת'}
 
 10. רכיבים אישיים שחייבים להופיע חזותית בתוך התמונה:
 תחביבים ותחומי עניין להמחשה חזותית:
@@ -1087,7 +1210,6 @@ ${visualSymbolsExtra || 'ללא סמלים נוספים'}
 - השתמש ב-2 עד 5 מהרכיבים האישיים החזקים ביותר
 - do not ignore them
 - render them visually and meaningfully
-- ${imageNeedle}
 
 12. התמונה צריכה לכלול:
 - דמות במרכז
@@ -1119,16 +1241,12 @@ Line 2: ${signature}`;
 
     function buildRewritePrompt(data){
       const rawParagraph = buildParagraph(data);
-      const toneLine = data.audienceMode === 'child'
-        ? '2. הפוך אותו לחם, זורם, עדין, בהיר ומתאים לילדים או לברכה על ילד/ה.'
-        : '2. הפוך אותו למקצועי, חם, אנושי וקולח.';
-
       return `הטקסט הגולמי הוא:
 "${rawParagraph}"
 
 משימה:
 1. ערוך את הטקסט הגולמי כדי לשפר את התחביר, הזרימה והסגנון הלשוני.
-${toneLine}
+2. ${data.audienceMode === 'child' ? 'הפוך אותו לחם, עדין, טבעי, אנושי וקולח, בניסוח שמתאים לילדים או לברכה על ילד/ה.' : 'הפוך אותו למקצועי, חם, אנושי וקולח.'}
 3. שמור על משמעות הליבה של הטקסט המקורי.
 4. אל תהפוך את הטקסט לרשימת תכונות.
 5. כתוב פסקה אחת רציפה, טבעית ומקושרת.
@@ -1141,7 +1259,7 @@ ${toneLine}
       return {
         audienceMode: els.audienceMode.value,
         characterMode: els.characterMode.value,
-        characterGender: els.characterGender.value,
+        genderMode: els.genderMode.value,
         ageHint: els.ageHint.value.trim(),
         name: els.name.value.trim(),
         role: els.role.value.trim(),
@@ -1163,14 +1281,12 @@ ${toneLine}
       };
     }
 
-    function syncImageFieldVisibility(){
-      const withPhoto = els.characterMode.value === 'withPhoto';
-      els.imageUploadField.classList.toggle('hide', !withPhoto);
-      if (!withPhoto) {
+    function updateImageUploadVisibility(){
+      els.imageUploadField.classList.toggle('hidden', els.characterMode.value === 'withoutPhoto');
+      if (els.characterMode.value === 'withoutPhoto') {
         els.imageInput.value = '';
         uploadedImageSrc = '';
       }
-      updatePrintPreview();
     }
 
     function updatePrintPreview(){
@@ -1185,16 +1301,16 @@ ${toneLine}
       }
       els.printPreviewFooter.textContent = els.printFooter.value.trim() || 'אביב תשפ״ו';
 
-      if(uploadedImageSrc){
+      if(uploadedImageSrc && els.characterMode.value === 'withPhoto'){
         els.printPreviewImage.src = uploadedImageSrc;
         els.printPreviewImage.style.display = 'block';
         els.printPlaceholder.style.display = 'none';
       } else {
         els.printPreviewImage.style.display = 'none';
         els.printPlaceholder.style.display = 'flex';
-        els.printPlaceholder.textContent = els.characterMode.value === 'withPhoto'
-          ? 'אפשר להעלות תמונה כדי לראות את הדמות בעמוד ההדפסה.'
-          : 'מצב בלי תמונה פעיל — אפשר להשאיר מקום לאיור העתידי או להדפיס כך.';
+        els.printPlaceholder.textContent = els.characterMode.value === 'withoutPhoto'
+          ? 'במצב ללא תמונה של דמות:\nהעמוד יודפס עם מקום למסגרת/איור אביבי שייוצרו לפי הפרומפט.'
+          : 'העלי תמונה כדי לראות את עמוד ההדפסה';
       }
     }
 
@@ -1203,6 +1319,7 @@ ${toneLine}
       els.paragraphOutput.value = buildParagraph(data);
       els.promptOutput.value = buildImagePrompt(data);
       els.rewritePromptOutput.value = buildRewritePrompt(data);
+      updateImageUploadVisibility();
       updatePrintPreview();
       setStatus('התוכן עודכן');
     }
@@ -1210,7 +1327,7 @@ ${toneLine}
     function resetForm(){
       els.audienceMode.value = 'adult';
       els.characterMode.value = 'withPhoto';
-      els.characterGender.value = 'female';
+      els.genderMode.value = 'female';
       els.ageHint.value = '';
       els.name.value = '';
       els.role.value = '';
@@ -1221,7 +1338,7 @@ ${toneLine}
       els.customTitle.value = '';
       els.customTitle.style.display = 'none';
       els.signature.value = 'באהבה ובהערכה';
-      els.theme.value = 'spring renewal, growth, joy, and meaningful presence';
+      els.theme.value = 'spring renewal, growth, and meaningful human presence';
       els.traitsOther.value = '';
       els.strengthsOther.value = '';
       els.eduOther.value = '';
@@ -1233,10 +1350,8 @@ ${toneLine}
       els.printFooter.value = 'אביב תשפ״ו';
       els.printPreviewParagraph.dataset.userEdited = '';
       uploadedImageSrc = '';
-
       initStaticOptions();
-      refreshDynamicOptions();
-      syncImageFieldVisibility();
+      initDynamicOptions();
       generate();
     }
 
@@ -1358,29 +1473,25 @@ ${els.rewritePromptOutput.value}`;
     });
 
     els.audienceMode.addEventListener('change', () => {
-      refreshDynamicOptions();
+      initDynamicOptions();
       generate();
     });
 
-    els.characterMode.addEventListener('change', () => {
-      syncImageFieldVisibility();
-      generate();
-    });
-
-    els.characterGender.addEventListener('change', generate);
+    els.characterMode.addEventListener('change', generate);
+    els.genderMode.addEventListener('change', generate);
     els.ageHint.addEventListener('input', generate);
 
     els.printCardBtn.addEventListener('click', () => {
-      if (uploadedImageSrc) {
+      if(uploadedImageSrc && els.characterMode.value === 'withPhoto'){
         els.printOnlyImage.src = uploadedImageSrc;
         els.printOnlyImage.style.display = 'block';
         els.printOnlyPlaceholder.style.display = 'none';
       } else {
         els.printOnlyImage.style.display = 'none';
         els.printOnlyPlaceholder.style.display = 'flex';
-        els.printOnlyPlaceholder.textContent = els.characterMode.value === 'withPhoto'
-          ? 'מקום שמור לתמונה'
-          : 'מקום שמור לאיור עתידי';
+        els.printOnlyPlaceholder.textContent = els.characterMode.value === 'withoutPhoto'
+          ? 'מקום למסגרת/איור אביבי מותאם אישית'
+          : 'מקום לתמונה';
       }
 
       els.printOnlyName.textContent = els.printPreviewName.textContent;
@@ -1396,8 +1507,7 @@ ${els.rewritePromptOutput.value}`;
     });
 
     initStaticOptions();
-    refreshDynamicOptions();
-    syncImageFieldVisibility();
+    initDynamicOptions();
     generate();
   </script>
 </body>
