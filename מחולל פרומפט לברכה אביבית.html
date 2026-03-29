@@ -346,6 +346,27 @@ button{border:none;border-radius:12px;padding:11px 14px;font-weight:700;cursor:p
         <div id="promptOutput" class="prompt-box" tabindex="0">כאן יופיע הפרומפט המלא לאחר נעילת הפסקה ובנייתו.</div>
       </div>
     </section>
+
+    <section class="panel" style="margin-top:16px">
+      <div class="panel-head">
+        <div class="panel-title">שיפור ניסוח הפסקה במחולל שפה</div>
+        <div class="panel-hint">אפשר להעתיק את ההנחיה הזו ל-ChatGPT / Gemini / Claude כדי ללטש רק את הפסקה בעברית</div>
+      </div>
+      <div class="panel-body">
+        <div class="notice amber" style="margin-top:0">
+          אם הפסקה מרגישה מעט טכנית, כללית או לא מספיק זורמת, מומלץ להעתיק את ההנחיה הבאה למחולל שפה,
+          לקבל נוסח משופר, ואז להדביק ידנית את הפסקה החדשה בחזרה בתיבת הפסקה בעברית.
+        </div>
+
+        <div class="actions" style="margin-top:12px;margin-bottom:12px">
+          <button type="button" class="btn-primary" id="buildPolishPromptBtn">צור/י הנחיית שיפור לפסקה</button>
+          <button type="button" class="btn-secondary" id="copyPolishPromptBtn">העתק/י הנחיה</button>
+          <button type="button" class="btn-amber" id="selectPolishPromptBtn">סמן/י להעתקה ידנית</button>
+        </div>
+
+        <div id="polishPromptOutput" class="prompt-box" tabindex="0">כאן תופיע ההנחיה לשיפור הפסקה בעברית.</div>
+      </div>
+    </section>
   </div>
 </div>
 
@@ -724,6 +745,66 @@ function selectPromptManually(){
   try { el.focus(); } catch(e) {}
 }
 
+function buildPolishPrompt(){
+  const paragraph = $('hebrewParagraph').value.trim();
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+  const toneTarget = gender === 'f'
+    ? 'המתאימה לילדה בבית ספר יסודי ולטון חם של מורה'
+    : 'המתאימה לילד בבית ספר יסודי ולטון חם של מורה';
+
+  if (!paragraph){
+    $('polishPromptOutput').textContent = 'אין עדיין פסקה בעברית. קודם צרי או כתבי פסקה, ואז לחצי על "צור/י הנחיית שיפור לפסקה".';
+    return;
+  }
+
+  const polishPrompt = `ערוך את הפסקה הבאה כך שתהיה יפה, קוהרנטית, טבעית וחמה. שמור על הרעיון המרכזי ועל הפרטים החשובים, אבל נסח מחדש את הטקסט בעברית זורמת, לא רשימתית ולא מלאכותית. הימנע ממשפטים מביכים, חזרתיים או כלליים מדי. כתוב כפסקת ברכה אישית, רכה ומדויקת, ${toneTarget}. אין צורך להזכיר את כל הפרטים במפורש — אפשר לרמוז להם בעדינות בתוך ניסוח טבעי והרמוני.
+
+הפסקה:
+${paragraph}`;
+
+  $('polishPromptOutput').textContent = polishPrompt;
+}
+
+async function copyPolishPrompt(){
+  const text = $('polishPromptOutput').textContent || '';
+  if (!text.trim()){
+    alert('אין עדיין הנחיה להעתקה.');
+    return;
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('ההנחיה הועתקה.');
+      return;
+    } catch (e) {}
+  }
+
+  const ok = fallbackCopyText(text);
+  if (ok) {
+    alert('ההנחיה הועתקה.');
+  } else {
+    alert('לא הצלחתי להעתיק אוטומטית. השתמשי בכפתור "סמן/י להעתקה ידנית".');
+  }
+}
+
+function selectPolishPromptManually(){
+  const el = $('polishPromptOutput');
+  const text = el.textContent || '';
+  if (!text.trim()){
+    alert('אין עדיין הנחיה לסמן.');
+    return;
+  }
+
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  try { el.focus(); } catch(e) {}
+}
+
 $('generateParagraphBtn').addEventListener('click', generateParagraph);
 $('validateBtn').addEventListener('click', ()=>validateParagraph(true));
 $('lockBtn').addEventListener('click', lockParagraph);
@@ -731,6 +812,10 @@ $('unlockBtn').addEventListener('click', unlockParagraph);
 $('buildPromptBtn').addEventListener('click', buildPrompt);
 $('copyPromptBtn').addEventListener('click', copyPrompt);
 $('selectPromptBtn').addEventListener('click', selectPromptManually);
+
+$('buildPolishPromptBtn').addEventListener('click', buildPolishPrompt);
+$('copyPolishPromptBtn').addEventListener('click', copyPolishPrompt);
+$('selectPolishPromptBtn').addEventListener('click', selectPolishPromptManually);
 
 $('hebrewParagraph').addEventListener('input', ()=>{
   if (paragraphLocked) paragraphLocked = false;
