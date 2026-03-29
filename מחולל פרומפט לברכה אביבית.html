@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>מחולל פרומפט לתמונת אביב — גרסה מורחבת</title>
+<style>
+:root{
+  --bg:#fdf8f0;--surface:#fff;--surface-2:#faf5eb;--border:#e8d9c0;--border-soft:#f0e5d0;
+  --text:#2a2318;--text-2:#6b5d4e;--text-3:#9c8878;--green:#5a7a3a;--green-l:#e8f2de;
+  --green-d:#3d5628;--amber:#c47c2a;--amber-l:#fdf0d8;--amber-m:#f0c878;
+  --red:#a7482f;--red-l:#fff1ec;--r-sm:10px;--r:16px;--r-lg:24px;
+  --sh-sm:0 2px 8px rgba(60,40,10,.07);--sh:0 8px 24px rgba(60,40,10,.10);--sh-lg:0 16px 48px rgba(60,40,10,.13)
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Heebo",sans-serif;background:var(--bg);color:var(--text)}
+.header{background:linear-gradient(135deg,#3d5628 0%,#5a7a3a 40%,#7a9a58 100%);padding:26px 18px;color:#fff}
+.header-inner{max-width:1360px;margin:auto}
+.badge{display:inline-block;background:rgba(255,255,255,.14);padding:5px 12px;border-radius:999px;font-size:12px;margin-bottom:10px;border:1px solid rgba(255,255,255,.2)}
+h1{margin:0 0 6px;font-size:clamp(24px,3vw,40px)}
+.header p{margin:0;color:rgba(255,255,255,.84);max-width:900px;line-height:1.6}
+.main{max-width:1360px;margin:0 auto;padding:18px;display:grid;grid-template-columns:1.08fr .92fr;gap:18px}
+.card,.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh);overflow:hidden}
+.card{margin-bottom:14px}
+.card-head,.panel-head{padding:14px 18px;background:var(--surface-2);border-bottom:1px solid var(--border-soft)}
+.card-title,.panel-title{font-size:18px;font-weight:700}
+.card-hint,.panel-hint{font-size:12px;color:var(--text-3);margin-top:4px}
+.card-body,.panel-body{padding:16px 18px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field+.field{margin-top:14px}
+label.main-label{display:block;font-weight:700;font-size:13px;margin-bottom:6px;color:var(--text-2)}
+input[type=text],textarea,select{
+  width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--r-sm);
+  background:#fffdfa;color:var(--text);font-size:14px;outline:none
+}
+textarea{resize:vertical;min-height:90px}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(90,122,58,.12)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip input{display:none}
+.chip span{display:inline-flex;align-items:center;padding:7px 11px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface-2);font-size:13px;cursor:pointer;user-select:none}
+.chip input:checked+span{background:var(--green);color:#fff;border-color:var(--green-d)}
+.radio-row{display:flex;gap:10px;flex-wrap:wrap}
+.radio-card input{display:none}
+.radio-card span{display:block;padding:10px 12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);cursor:pointer;min-width:180px}
+.radio-card input:checked+span{background:var(--green-l);border-color:var(--green)}
+.small{font-size:12px;color:var(--text-3)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button{border:none;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer}
+.btn-primary{background:linear-gradient(135deg,var(--green),var(--green-d));color:#fff}
+.btn-secondary{background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
+.btn-amber{background:var(--amber-l);border:1px solid var(--amber-m);color:#7a4c18}
+.notice{padding:10px 12px;border-radius:12px;font-size:13px;line-height:1.6;margin-top:10px}
+.notice.green{background:#eef7e8;border:1px solid #cde1bc;color:var(--green-d)}
+.notice.amber{background:#fff8ea;border:1px solid #eed49a;color:#7a4c18}
+.notice.red{background:#fff1ec;border:1px solid #e4b7ab;color:var(--red)}
+.prompt-box{
+  background:linear-gradient(160deg,#fffdf7 0%,#fdf8ee 100%);
+  border-radius:18px;padding:16px;border:1px solid #eadfca;
+  box-shadow:inset 0 0 0 1px rgba(200,170,90,.12);
+  direction:ltr;text-align:left;white-space:pre-wrap;line-height:1.8;font-size:13px;max-height:440px;overflow:auto;min-height:250px
+}
+.meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:10px}
+.badge-mini{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--green-l);color:var(--green-d);font-size:12px;font-weight:700}
+.locked{background:#f3f8ef;border-color:#cadbbd}
+.footer-note{font-size:12px;color:var(--text-3);margin-top:8px}
+.preview-card{
+  background:linear-gradient(180deg,#fffef8 0%,#fff9ef 100%);
+  border:1px solid #e7d8bc;border-radius:24px;box-shadow:var(--sh-lg);
+  padding:22px;min-height:580px;position:relative;overflow:hidden
+}
+.preview-card:before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at top right, rgba(255,220,180,.28), transparent 30%),
+             radial-gradient(circle at bottom left, rgba(176,214,146,.18), transparent 28%);
+  pointer-events:none
+}
+.preview-top-title{
+  font-size:30px;font-weight:800;text-align:center;color:#7a4c18;line-height:1.3;margin-bottom:18px;position:relative;z-index:1
+}
+.preview-photo-wrap{
+  display:flex;justify-content:center;align-items:center;margin-bottom:18px;position:relative;z-index:1
+}
+.preview-photo{
+  width:180px;height:180px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  border:6px solid #fff;box-shadow:0 10px 28px rgba(90,60,20,.16);
+  background:#f3ead8;font-size:58px;color:#b8965e
+}
+.preview-plaque{
+  position:relative;z-index:1;
+  background:linear-gradient(180deg,#fffaf0 0%,#fff5e3 100%);
+  border:1.5px solid #ebd6a2;border-radius:22px;padding:18px 20px;
+  box-shadow:0 8px 20px rgba(160,130,60,.10);min-height:180px
+}
+.preview-paragraph{
+  direction:rtl;text-align:right;white-space:pre-wrap;line-height:2.05;font-size:20px;color:#4a3815
+}
+.preview-bottom{
+  position:relative;z-index:1;margin-top:18px;text-align:center
+}
+.preview-bottom-main{
+  font-size:28px;font-weight:800;color:#7a4c18;line-height:1.3
+}
+.preview-signature{
+  font-size:22px;color:#6b5d4e;margin-top:8px
+}
+.preview-hint{
+  font-size:12px;color:#9c8878;margin-top:10px;text-align:center
+}
+.style-help{
+  background:#f5f7ef;border:1px solid #dce7cf;border-radius:12px;padding:10px 12px;font-size:12px;color:#4a5f35;line-height:1.7
+}
+@media (max-width:980px){.main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-inner">
+    <div class="badge">🌸 מחולל פרומפט · סגנונות נוספים + כותרות נוספות</div>
+    <h1>מחולל פרומפט לתמונת אביב אישית</h1>
+    <p>הגרסה הזו מוסיפה בחירה בין כמה סגנונות חזותיים, יותר כותרות מוכנות, מסירה את הצורך להעלות תמונה לאפליקציה עצמה, ומתקנת את כפתור ההעתקה.</p>
+  </div>
+</header>
+
+<div class="main">
+  <div>
+    <section class="card">
+      <div class="card-head">
+        <div class="card-title">הגדרות בסיסיות</div>
+        <div class="card-hint">סוג ברכה, מגדר, כיתה ושם</div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label class="main-label">סוג הברכה</label>
+          <div class="radio-row">
+            <label class="radio-card"><input type="radio" name="blessingType" value="short" checked><span><strong>קצרה</strong><br><span class="small">בדיוק 2 משפטים מלאים</span></span></label>
+            <label class="radio-card"><input type="radio" name="blessingType" value="long"><span><strong>מפורטת</strong><br><span class="small">בדיוק 4 משפטים מלאים</span></span></label>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label class="main-label">מגדר הדמות</label>
+            <div class="radio-row">
+              <label class="radio-card"><input type="radio" name="gender" value="f" checked><span>👧 נקבה</span></label>
+              <label class="radio-card"><input type="radio" name="gender" value="m"><span>👦 זכר</span></label>
+            </div>
+          </div>
+          <div class="field">
+            <label class="main-label">כיתה</label>
+            <select id="grade">
+              <option>א</option><option>ב</option><option>ג</option><option>ד</option><option selected>ה</option><option>ו</option><option>ז</option><option>ח</option><option>ט</option><option>י</option><option>יא</option><option>יב</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="main-label">שם הילד/ה לפנייה אישית</label>
+          <input id="studentName" type="text" placeholder="למשל: נעמה, מיכל, אדם" />
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="card-title">סגנון התמונה</div>
+        <div class="card-hint">בחירה חזותית שתשפיע על הפרומפט</div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label class="main-label">בחרי סגנון</label>
+          <select id="imageStyle">
+            <option value="dreamy_pastel" selected>Dreamy Pastel Illustration</option>
+            <option value="pixar_3d">Pixar-like 3D Illustration</option>
+            <option value="watercolor">Soft Watercolor</option>
+            <option value="storybook">Classic Storybook Illustration</option>
+            <option value="paper_cut">Layered Paper-Cut Art</option>
+            <option value="soft_anime">Soft Anime Illustration</option>
+          </select>
+        </div>
+        <div id="styleHelp" class="style-help"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="card-title">מאפייני הדמות</div>
+        <div class="card-hint">הפרטים שישפיעו על הטקסט שבתיבה ועל האלמנטים בתמונה</div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label class="main-label">חוזקות ותכונות</label>
+          <div class="chips" id="traits">
+            <label class="chip"><input type="checkbox" value="יצירתית"><span>🎨 יצירתית/י</span></label>
+            <label class="chip"><input type="checkbox" value="סקרנית"><span>🔍 סקרנית/ן</span></label>
+            <label class="chip"><input type="checkbox" value="חרוצה"><span>📚 חרוצה/ץ</span></label>
+            <label class="chip"><input type="checkbox" value="מסורה"><span>💛 מסורה/מסור</span></label>
+            <label class="chip"><input type="checkbox" value="אחראית"><span>🎯 אחראית/י</span></label>
+            <label class="chip"><input type="checkbox" value="חייכנית"><span>😊 חייכנית/י</span></label>
+            <label class="chip"><input type="checkbox" value="עדינה"><span>🌸 עדינה/ן</span></label>
+            <label class="chip"><input type="checkbox" value="אמיצה"><span>🦁 אמיצה/יץ</span></label>
+            <label class="chip"><input type="checkbox" value="חברותית"><span>🤗 חברותית/י</span></label>
+            <label class="chip"><input type="checkbox" value="בעלת דמיון"><span>✨ בעלת/בעל דמיון</span></label>
+          </div>
+          <div class="field"><input id="traitsFree" type="text" placeholder="תכונות נוספות, מופרדות בפסיקים" /></div>
+        </div>
+
+        <div class="field">
+          <label class="main-label">תחביבים ועיסוקים</label>
+          <div class="chips" id="hobbies">
+            <label class="chip"><input type="checkbox" value="ריקוד"><span>💃 ריקוד</span></label>
+            <label class="chip"><input type="checkbox" value="קריאת ספרים"><span>📖 קריאת ספרים</span></label>
+            <label class="chip"><input type="checkbox" value="צילום"><span>📷 צילום</span></label>
+            <label class="chip"><input type="checkbox" value="ציור"><span>🖍️ ציור</span></label>
+            <label class="chip"><input type="checkbox" value="יצירה ידנית"><span>✂️ יצירה ידנית</span></label>
+            <label class="chip"><input type="checkbox" value="מוזיקה"><span>🎵 מוזיקה</span></label>
+            <label class="chip"><input type="checkbox" value="בישול ואפייה"><span>🍪 בישול ואפייה</span></label>
+            <label class="chip"><input type="checkbox" value="ספורט"><span>⚽ ספורט</span></label>
+          </div>
+          <div class="field"><input id="hobbiesFree" type="text" placeholder="תחביבים נוספים, מופרדים בפסיקים" /></div>
+        </div>
+
+        <div class="field">
+          <label class="main-label">בעלי חיים ופרטים בעולם האישי</label>
+          <div class="chips" id="animals">
+            <label class="chip"><input type="checkbox" value="תוכי"><span>🦜 תוכי</span></label>
+            <label class="chip"><input type="checkbox" value="כלב"><span>🐶 כלב</span></label>
+            <label class="chip"><input type="checkbox" value="חתול"><span>🐱 חתול</span></label>
+            <label class="chip"><input type="checkbox" value="ארנב"><span>🐰 ארנב</span></label>
+          </div>
+          <div class="field"><input id="extrasFree" type="text" placeholder="פרטים אישיים נוספים, מופרדים בפסיקים" /></div>
+        </div>
+
+        <div class="field">
+          <label class="main-label">מה חייב להופיע בפסקה בעברית</label>
+          <input id="mustInclude" type="text" placeholder="למשל: ריקוד, צילום, תוכי, אחריות" />
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div class="card-title">הטקסטים שיופיעו בתמונה</div>
+        <div class="card-hint">כותרת, פסקה מרכזית וחתימה</div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label class="main-label">בחרי כותרת עליונה</label>
+          <select id="topTitlePreset">
+            <option value="כך את אביב בעולם" selected>כך את אביב בעולם</option>
+            <option value="האביב פורח בדרכך">האביב פורח בדרכך</option>
+            <option value="כך משתקף בך האביב">כך משתקף בך האביב</option>
+            <option value="כך נפתח האביב איתך">כך נפתח האביב איתך</option>
+            <option value="האביב כמו נכתב בך">האביב כמו נכתב בך</option>
+            <option value="כך מאיר האביב דרכך">כך מאיר האביב דרכך</option>
+            <option value="כך צומח האביב בלבך">כך צומח האביב בלבך</option>
+            <option value="בדרכך נפתח האביב">בדרכך נפתח האביב</option>
+            <option value="כך האביב פוגש אותך">כך האביב פוגש אותך</option>
+            <option value="כך נוכח האביב בך">כך נוכח האביב בך</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="main-label">או ערכי ידנית את הכותרת</label>
+          <input id="topTitle" type="text" value="כך את אביב בעולם" />
+        </div>
+
+        <div class="field">
+          <label class="main-label">שורת ברכה תחתונה</label>
+          <input id="bottomMain" type="text" value="חג אביב שמח" />
+        </div>
+
+        <div class="field">
+          <label class="main-label">חתימה</label>
+          <input id="signature" type="text" value="באהבה, אילנית" />
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-primary" id="generateParagraphBtn">צור/י פסקה בעברית</button>
+          <button type="button" class="btn-secondary" id="unlockBtn">בטל/י נעילה</button>
+        </div>
+
+        <div id="rulesBox" class="notice amber">ברכה קצרה תכיל בדיוק 2 משפטים מלאים. ברכה מפורטת תכיל בדיוק 4 משפטים מלאים. לא רשימת תכונות, לא משפט אחד ארוך.</div>
+      </div>
+    </section>
+  </div>
+
+  <div>
+    <section class="panel">
+      <div class="panel-head">
+        <div class="panel-title">שלב 1 — עריכת הפסקה בעברית</div>
+        <div class="panel-hint">כאן מדייקים את הטקסט שבתיבה המרכזית</div>
+      </div>
+      <div class="panel-body">
+        <textarea id="hebrewParagraph" class="locked" style="min-height:190px;direction:rtl;text-align:right;line-height:2;font-size:16px"></textarea>
+        <div class="meta">
+          <span class="badge-mini" id="sentenceCountBadge">0 משפטים</span>
+          <span class="badge-mini" id="wordCountBadge">0 מילים</span>
+          <span class="badge-mini" id="lockStateBadge">לא נעול</span>
+        </div>
+        <div id="validationBox" class="notice red" style="display:none"></div>
+        <div class="actions">
+          <button type="button" class="btn-amber" id="validateBtn">בדוק/י איכות פסקה</button>
+          <button type="button" class="btn-primary" id="lockBtn">נעל/י את הטקסט לתמונה</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:16px">
+      <div class="panel-head">
+        <div class="panel-title">תצוגה מקדימה של כרטיס הברכה</div>
+        <div class="panel-hint">הדמיה של מבנה התמונה עם הטקסטים</div>
+      </div>
+      <div class="panel-body">
+        <div class="preview-card">
+          <div class="preview-top-title" id="previewTopTitle">כך את אביב בעולם</div>
+
+          <div class="preview-photo-wrap">
+            <div id="previewPhoto" class="preview-photo">🌸</div>
+          </div>
+
+          <div class="preview-plaque">
+            <div class="preview-paragraph" id="previewParagraph">כאן תופיע הפסקה בעברית לאחר יצירה או עריכה.</div>
+          </div>
+
+          <div class="preview-bottom">
+            <div class="preview-bottom-main" id="previewBottomMain">חג אביב שמח</div>
+            <div class="preview-signature" id="previewSignature">באהבה, אילנית</div>
+            <div class="preview-hint">התצוגה באפליקציה היא הדמיה בלבד — את התמונה עצמה מעלים אחר כך לננו בננה</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top:16px">
+      <div class="panel-head">
+        <div class="panel-title">שלב 2 — הפרומפט המלא</div>
+        <div class="panel-hint">הפסקה מוטמעת בדיוק מוחלט בפרומפט לננו בננה</div>
+      </div>
+      <div class="panel-body">
+        <div class="actions" style="margin-top:0;margin-bottom:12px">
+          <button type="button" class="btn-primary" id="buildPromptBtn">בנה/י פרומפט מלא</button>
+          <button type="button" class="btn-secondary" id="copyPromptBtn">העתק/י פרומפט</button>
+          <button type="button" class="btn-amber" id="selectPromptBtn">סמן/י להעתקה ידנית</button>
+        </div>
+        <div id="promptOutput" class="prompt-box" tabindex="0">כאן יופיע הפרומפט המלא לאחר נעילת הפסקה ובנייתו.</div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+let paragraphLocked = false;
+
+const STYLE_PRESETS = {
+  dreamy_pastel: {
+    label: 'Dreamy Pastel Illustration',
+    preview: '🌸',
+    prompt: 'dreamy pastel illustration — soft cream and blush tones, delicate petal-like brushstrokes, gentle hazy glow, delicate linework, chalky matte texture, like a hand-painted greeting card'
+  },
+  pixar_3d: {
+    label: 'Pixar-like 3D Illustration',
+    preview: '🧚',
+    prompt: 'stylized 3D animated illustration, Pixar-like character design, soft subsurface skin shading, warm cinematic lighting, expressive face, polished rendering, gentle depth, rich but soft spring colors'
+  },
+  watercolor: {
+    label: 'Soft Watercolor',
+    preview: '🎨',
+    prompt: 'soft watercolor illustration, airy washes of color, delicate transparent layers, textured paper feel, hand-painted floral softness, light spring atmosphere'
+  },
+  storybook: {
+    label: 'Classic Storybook Illustration',
+    preview: '📖',
+    prompt: 'classic storybook illustration, elegant linework, soft painterly shading, whimsical spring atmosphere, tender character rendering, warm and timeless children’s-book feel'
+  },
+  paper_cut: {
+    label: 'Layered Paper-Cut Art',
+    preview: '✂️',
+    prompt: 'layered paper-cut style illustration, dimensional cut-paper shapes, soft shadows between layers, floral decorative composition, handcrafted spring poster look'
+  },
+  soft_anime: {
+    label: 'Soft Anime Illustration',
+    preview: '✨',
+    prompt: 'soft anime-style illustration, gentle expressive eyes, clean refined linework, pastel spring palette, airy lighting, elegant and warm character-focused composition'
+  }
+};
+
+function getSelectedValues(groupId){
+  return [...document.querySelectorAll(`#${groupId} input[type="checkbox"]:checked`)].map(el=>el.value);
+}
+function splitFree(text){
+  return text.split(',').map(s=>s.trim()).filter(Boolean);
+}
+function unique(arr){
+  return [...new Set(arr.filter(Boolean))];
+}
+function getSentenceTarget(){
+  return document.querySelector('input[name="blessingType"]:checked').value === 'long' ? 4 : 2;
+}
+function countWords(text){
+  return (text.match(/\S+/g) || []).length;
+}
+function splitSentences(text){
+  return text.split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean);
+}
+function joinHebrew(items){
+  if (!items.length) return '';
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} ו${items[1]}`;
+  return `${items.slice(0,-1).join(', ')} ו${items[items.length-1]}`;
+}
+function toAbstractTrait(trait){
+  const map = {
+    'יצירתית':'יצירתיות','יצירתי':'יצירתיות',
+    'סקרנית':'סקרנות','סקרן':'סקרנות',
+    'חרוצה':'חריצות','חרוץ':'חריצות',
+    'מסורה':'מסירות','מסור':'מסירות',
+    'אחראית':'אחריות','אחראי':'אחריות',
+    'חייכנית':'חיוך חם','חייכני':'חיוך חם',
+    'עדינה':'עדינות','עדין':'עדינות',
+    'אמיצה':'אומץ','אמיץ':'אומץ',
+    'חברותית':'חברותיות','חברותי':'חברותיות',
+    'בעלת דמיון':'דמיון','בעל דמיון':'דמיון',
+    'שמחת חיים':'שמחת חיים'
+  };
+  return map[trait] || trait;
+}
+function normalizeTraitsForSentence(traits){
+  return traits.map(toAbstractTrait);
+}
+function withLamed(word){
+  if (!word) return '';
+  if (word.startsWith('ל')) return word;
+  const special = {
+    'ריקוד':'לריקוד',
+    'צילום':'לצילום',
+    'ציור':'לציור',
+    'קריאת ספרים':'לקריאת ספרים',
+    'יצירה ידנית':'ליצירה ידנית',
+    'מוזיקה':'למוזיקה',
+    'בישול ואפייה':'לבישול ולאפייה',
+    'ספורט':'לספורט'
+  };
+  if (special[word]) return special[word];
+  return `ל${word}`;
+}
+function joinHebrewWithLamed(items){
+  const transformed = items.map(withLamed);
+  if (!transformed.length) return '';
+  if (transformed.length === 1) return transformed[0];
+  if (transformed.length === 2) return `${transformed[0]} ו${transformed[1]}`;
+  return `${transformed.slice(0,-1).join(', ')} ו${transformed[transformed.length-1]}`;
+}
+function definiteNoun(word){
+  if (!word) return '';
+  if (word.startsWith('ה')) return word;
+  return `ה${word}`;
+}
+function joinDefinite(items){
+  return joinHebrew(items.map(definiteNoun));
+}
+function byGender(feminineText, masculineText, gender){
+  return gender === 'f' ? feminineText : masculineText;
+}
+function cleanRepeatedIdeas(sentences){
+  if (sentences.length < 2) return sentences;
+  if (sentences[0].includes('סקרנות') && sentences[1].includes('סקרנות')) {
+    sentences[1] = sentences[1].replace('עם סקרנות, לב פתוח ונוכחות שמורגשת גם בפרטים הקטנים', 'עם לב פתוח ונוכחות שמורגשת גם בפרטים הקטנים');
+  }
+  return sentences;
+}
+function getStyleData(){
+  return STYLE_PRESETS[$('imageStyle').value] || STYLE_PRESETS.dreamy_pastel;
+}
+function updateStyleHelp(){
+  const s = getStyleData();
+  $('styleHelp').textContent = `הסגנון שנבחר: ${s.label}. זהו הסגנון שיוטמע בפרומפט האנגלי.`;
+}
+function updateStats(){
+  const text = $('hebrewParagraph').value.trim();
+  const sentences = splitSentences(text).length;
+  $('sentenceCountBadge').textContent = `${sentences} משפטים`;
+  $('wordCountBadge').textContent = `${countWords(text)} מילים`;
+  $('lockStateBadge').textContent = paragraphLocked ? 'נעול' : 'לא נעול';
+  $('hebrewParagraph').classList.toggle('locked', paragraphLocked);
+  updatePreview();
+}
+function updatePreview(){
+  $('previewTopTitle').textContent = $('topTitle').value.trim() || 'כך את אביב בעולם';
+  $('previewParagraph').textContent = $('hebrewParagraph').value.trim() || 'כאן תופיע הפסקה בעברית לאחר יצירה או עריכה.';
+  $('previewBottomMain').textContent = $('bottomMain').value.trim() || 'חג אביב שמח';
+  $('previewSignature').textContent = $('signature').value.trim() || 'באהבה, אילנית';
+  $('previewPhoto').textContent = getStyleData().preview;
+}
+function generateParagraph(){
+  const name = $('studentName').value.trim() || 'היקר/ה';
+  const gender = document.querySelector('input[name="gender"]:checked').value;
+  const target = getSentenceTarget();
+
+  const traitsRaw = unique([...getSelectedValues('traits'), ...splitFree($('traitsFree').value)]).slice(0,6);
+  const hobbies = unique([...getSelectedValues('hobbies'), ...splitFree($('hobbiesFree').value)]).slice(0,6);
+  const animals = unique([...getSelectedValues('animals'), ...splitFree($('extrasFree').value)]).slice(0,4);
+  const must = unique(splitFree($('mustInclude').value)).slice(0,4);
+
+  const abstractTraits = normalizeTraitsForSentence(traitsRaw);
+  const descriptor = abstractTraits.length ? joinHebrew(abstractTraits.slice(0,3)) : 'אור, רוך וייחוד';
+  const hobbyText = hobbies.length ? joinHebrewWithLamed(hobbies.slice(0,3)) : byGender('לדברים שאת אוהבת', 'לדברים שאתה אוהב', gender);
+  const mustText = must.length ? joinHebrewWithLamed(must) : hobbyText;
+  const animalText = animals.length ? joinDefinite(animals.slice(0,2)) : '';
+  const openingVerb = byGender('מביאה', 'מביא', gender);
+
+  let sentences = [];
+
+  if (target === 2){
+    sentences = [
+      `${name} היקר${gender==='f'?'ה':''}, כמו פרח אביבי שנפתח באור רך, כך גם את${gender==='m'?'ה':''} ${openingVerb} איתך ${descriptor}.`,
+      `האהבה שלך ${mustText} נותנת לברכה הזו נוכחות אישית, חמה ומלאת חיים.`
+    ];
+  } else {
+    sentences = [
+      `${name} היקר${gender==='f'?'ה':''}, כמו פרח אביבי שנפתח באור עדין, כך גם את${gender==='m'?'ה':''} ${openingVerb} איתך ${descriptor}.`,
+      `יש בך דרך יפה ומיוחדת להיות בעולם, עם לב פתוח ונוכחות שמורגשת גם בפרטים הקטנים.`,
+      `האהבה שלך ${mustText} מוסיפה לדמות שלך עומק, שמחה וצבע, והופכת את הברכה הזו לאישית ומדויקת יותר.`,
+      animalText
+        ? `גם ${animalText} משתלב כאן בטבעיות, כחלק מעולם פנימי חי, עדין ומלא דמיון.`
+        : `כל מה שאת${gender==='m'?'ה':''} אוהב${gender==='f'?'ת':''} באמת משתלב כאן בטבעיות ויוצר תחושה של עולם פנימי חם, חי ומלא דמיון.`
+    ];
+  }
+
+  sentences = cleanRepeatedIdeas(sentences);
+
+  $('hebrewParagraph').value = sentences.join(' ');
+  paragraphLocked = false;
+  validateParagraph(false);
+  updateStats();
+}
+function validateParagraph(showOk=true){
+  const text = $('hebrewParagraph').value.trim();
+  const target = getSentenceTarget();
+  const box = $('validationBox');
+  const issues = [];
+
+  if (!text) issues.push('אין עדיין פסקה בעברית.');
+  const sentences = splitSentences(text);
+
+  if (sentences.length !== target) issues.push(`נדרשים בדיוק ${target} משפטים מלאים, וכרגע יש ${sentences.length}.`);
+  if (!/[.!?]$/.test(text)) issues.push('הפסקה צריכה להסתיים בסימן פיסוק תקין.');
+
+  const name = $('studentName').value.trim();
+  if (name && !sentences[0]?.includes(name)) issues.push('מומלץ ששם הילד/ה יופיע כבר במשפט הראשון.');
+
+  const must = unique(splitFree($('mustInclude').value));
+  if (must.length){
+    const missing = must.filter(item => !text.includes(item));
+    if (missing.length) issues.push(`חסרים בפסקה רעיונות שסומנו כחובה: ${missing.join(', ')}.`);
+  }
+
+  const badPattern = /(מביא|מביאה) איתך [^.!?]*?(יצירתית|סקרנית|חרוצה|מסורה|אחראית|חייכנית|עדינה|אמיצה|חברותית)/;
+  if (badPattern.test(text)) issues.push('יש ניסוח לא תקין תחבירית אחרי "מביא/מביאה איתך". עדיף להשתמש בשמות עצם כמו "יצירתיות, סקרנות וחריצות".');
+
+  if (/לריקוד, צילום/.test(text) || /לציור, צילום/.test(text) || /לריקוד, ציור/.test(text)) {
+    issues.push('כדאי לשמור על הקבלה תחבירית בתחביבים: למשל "לריקוד, לצילום ולציור".');
+  }
+
+  if (/גם תוכי /.test(text) || /גם כלב /.test(text) || /גם חתול /.test(text) || /גם ארנב /.test(text)) {
+    issues.push('כדאי ליידע שמות עצם כאלה בהקשר הזה: "גם התוכי", "גם הכלב".');
+  }
+
+  if (issues.length){
+    box.style.display = 'block';
+    box.className = 'notice red';
+    box.innerHTML = issues.map(i => `• ${i}`).join('<br>');
+    return false;
+  }
+
+  if (showOk){
+    box.style.display = 'block';
+    box.className = 'notice green';
+    box.textContent = 'הפסקה תקינה ומוכנה לנעילה.';
+  } else {
+    box.style.display = 'none';
+  }
+  return true;
+}
+function lockParagraph(){
+  if (!validateParagraph(true)) return;
+  paragraphLocked = true;
+  updateStats();
+}
+function unlockParagraph(){
+  paragraphLocked = false;
+  updateStats();
+}
+function englishList(arr){
+  return arr.join(', ');
+}
+function buildPrompt(){
+  if (!paragraphLocked){
+    $('promptOutput').textContent = 'יש לנעול קודם את הפסקה בעברית כדי להבטיח שהיא תוטמע בדיוק מוחלט בפרומפט.';
+    return;
+  }
+
+  const gender = document.querySelector('input[name="gender"]:checked').value === 'f' ? 'girl' : 'boy';
+  const grade = $('grade').value;
+  const traits = unique([...getSelectedValues('traits'), ...splitFree($('traitsFree').value)]);
+  const hobbies = unique([...getSelectedValues('hobbies'), ...splitFree($('hobbiesFree').value)]);
+  const animals = unique([...getSelectedValues('animals'), ...splitFree($('extrasFree').value)]);
+  const paragraph = $('hebrewParagraph').value.trim();
+  const topTitle = $('topTitle').value.trim() || 'כך את אביב בעולם';
+  const bottomMain = $('bottomMain').value.trim() || 'חג אביב שמח';
+  const signature = $('signature').value.trim() || 'באהבה, אילנית';
+  const lines = splitSentences(paragraph);
+  const styleData = getStyleData();
+
+  const prompt = `A richly detailed spring greeting poster with a clear vertical composition. Illustration style: ${styleData.prompt}. The mood is soft, bright, spring, uplifting. The background features spring breeze, warm light, butterflies, and floral decorative elements. Prominent spring flowers, especially anemone (כלנית), should be featured inside and around the text plaques.
+
+In the center, the ${gender} (grade ${grade}) from the uploaded photo stands smiling in a lush spring field. Preserve facial features, hair, glasses, and likeness exactly as in the original uploaded photo. IMPORTANT: apply the chosen illustration style fully to the subject — transform the child into the same art style as the rest of the image, do NOT leave the subject as a realistic photograph.
+
+The child should feel connected to these qualities and interests: ${traits.length ? englishList(traits) : 'warmth, joy, and individuality'}${hobbies.length ? `; hobbies/interests: ${englishList(hobbies)}` : ''}${animals.length ? `; subtle background elements may include: ${englishList(animals)}` : ''}. Weave these elements subtly into the background as small charming decorative details, not dominant and not labeled.
+
+The poster has 3 distinct text elements in Hebrew, which must be rendered with perfect accuracy and right alignment.
+
+HEBREW TEXT ACCURACY IS CRITICAL:
+All Hebrew text must be copied EXACTLY as written.
+Do not change, paraphrase, shorten, replace, or omit even a single letter, word, punctuation mark, or emoji.
+Render the Hebrew text with perfect spelling, high legibility, and right alignment.
+Treat the Hebrew text like a precise font-rendering task, not like content to reinterpret.
+Do not rewrite the central Hebrew paragraph stylistically. Copy it exactly as finalized by the user/editor.
+
+1. Top Title — COPY EXACTLY:
+The exact text that must appear: "${topTitle}"
+Copy letter by letter: "${topTitle}"
+
+2. Central Paragraph — CRITICAL: COPY EVERY WORD EXACTLY AS WRITTEN:
+The central element is a flower-trimmed plaque. The EXACT Hebrew text that must appear inside it, word for word:
+"${paragraph}"
+
+To ensure maximum accuracy, preserve this sentence structure and line-by-line order:
+${lines.map((line, i) => `Line ${i+1}: ${line}`).join('\n')}
+
+IMPORTANT RULES FOR THE TEXT:
+• Do NOT change, replace, shorten, or omit even a single letter, word, punctuation mark, or emoji.
+• The final text in the image must match the paragraph above EXACTLY, letter by letter.
+• Right-aligned. Clean highly legible Hebrew font. Large enough to read comfortably.
+
+3. Bottom Banner — COPY EXACTLY:
+Line 1 — large bold Hebrew, copy exactly: "${bottomMain}"
+Line 2 — below, copy exactly: "${signature}"
+Do not alter these words in any way.
+
+CRITICAL FINAL REMINDER — HEBREW TEXT ACCURACY:
+All Hebrew text must be copied EXACTLY as written, letter by letter.
+Do not change, invent, paraphrase, shorten, substitute, or omit any word, letter, punctuation mark, or emoji.
+Every Hebrew word must be perfectly legible, correctly spelled, and right-aligned.
+Treat the Hebrew text like a font-rendering task — visual precision, not interpretation.
+
+The entire composition is seamlessly integrated with soft, warm spring lighting.`;
+
+  $('promptOutput').textContent = prompt;
+}
+
+function fallbackCopyText(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.top = '-9999px';
+  ta.style.left = '-9999px';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  ta.setSelectionRange(0, ta.value.length);
+
+  let ok = false;
+  try {
+    ok = document.execCommand('copy');
+  } catch (e) {
+    ok = false;
+  }
+
+  document.body.removeChild(ta);
+  return ok;
+}
+
+async function copyPrompt(){
+  const text = $('promptOutput').textContent || '';
+  if (!text.trim()){
+    alert('אין עדיין פרומפט להעתקה.');
+    return;
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('הפרומפט הועתק.');
+      return;
+    } catch (e) {}
+  }
+
+  const ok = fallbackCopyText(text);
+  if (ok) {
+    alert('הפרומפט הועתק.');
+  } else {
+    alert('לא הצלחתי להעתיק אוטומטית. השתמשי בכפתור "סמן/י להעתקה ידנית".');
+  }
+}
+
+function selectPromptManually(){
+  const el = $('promptOutput');
+  const text = el.textContent || '';
+  if (!text.trim()){
+    alert('אין עדיין פרומפט לסמן.');
+    return;
+  }
+
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+
+  try { el.focus(); } catch(e) {}
+}
+
+$('generateParagraphBtn').addEventListener('click', generateParagraph);
+$('validateBtn').addEventListener('click', ()=>validateParagraph(true));
+$('lockBtn').addEventListener('click', lockParagraph);
+$('unlockBtn').addEventListener('click', unlockParagraph);
+$('buildPromptBtn').addEventListener('click', buildPrompt);
+$('copyPromptBtn').addEventListener('click', copyPrompt);
+$('selectPromptBtn').addEventListener('click', selectPromptManually);
+
+$('hebrewParagraph').addEventListener('input', ()=>{
+  if (paragraphLocked) paragraphLocked = false;
+  updateStats();
+  validateParagraph(false);
+});
+
+$('topTitlePreset').addEventListener('change', ()=>{
+  $('topTitle').value = $('topTitlePreset').value;
+  updatePreview();
+});
+
+['topTitle','bottomMain','signature','studentName','traitsFree','hobbiesFree','extrasFree','mustInclude'].forEach(id=>{
+  $(id).addEventListener('input', updatePreview);
+});
+
+$('imageStyle').addEventListener('change', ()=>{
+  updateStyleHelp();
+  updatePreview();
+});
+
+document.querySelectorAll('input[name="blessingType"]').forEach(el=>{
+  el.addEventListener('change', ()=>{
+    $('rulesBox').textContent = getSentenceTarget() === 4
+      ? 'במסלול המפורט נדרשים בדיוק 4 משפטים מלאים, מחוברים וקוהרנטיים.'
+      : 'במסלול הקצר נדרשים בדיוק 2 משפטים מלאים, לא משפט אחד ארוך.';
+    updateStats();
+    validateParagraph(false);
+  });
+});
+
+document.querySelectorAll('#traits input, #hobbies input, #animals input').forEach(el=>{
+  el.addEventListener('change', updatePreview);
+});
+
+updateStyleHelp();
+updateStats();
+updatePreview();
+</script>
+</body>
+</html>
