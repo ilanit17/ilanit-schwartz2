@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פתקי הושבה לליל הסדר – אוהל</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Noto+Serif+Hebrew:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --gold: #c9a227; --gold-light: #e8c84a;
+  --gold-dim: rgba(201,162,39,0.2); --text-muted: rgba(255,255,255,0.45);
+}
+body { font-family: 'Frank Ruhl Libre','Noto Serif Hebrew','Times New Roman',serif; background:#07101f; color:#fff; min-height:100vh; direction:rtl; }
+header { background:linear-gradient(180deg,#0a1628 0%,#0d1b35 100%); border-bottom:1px solid var(--gold-dim); padding:1.8rem 2rem 1.4rem; text-align:center; position:relative; overflow:hidden; }
+header::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 70% 60% at 50% 0%,rgba(201,162,39,0.10) 0%,transparent 70%); pointer-events:none; }
+h1 { font-size:2.2rem; font-weight:700; color:var(--gold); letter-spacing:.03em; }
+.header-sub { font-size:.92rem; color:var(--text-muted); font-weight:300; margin-top:.3rem; }
+
+.layout { display:grid; grid-template-columns:300px 1fr; gap:2rem; max-width:1300px; margin:2rem auto; padding:0 1.5rem 3rem; align-items:start; }
+.sidebar { background:rgba(255,255,255,.035); border:1px solid rgba(201,162,39,.18); border-radius:16px; padding:1.5rem; position:sticky; top:1.5rem; }
+.section-label { font-size:.68rem; color:var(--gold); letter-spacing:.18em; text-transform:uppercase; margin-bottom:.75rem; font-weight:500; }
+.divider { border:none; border-top:1px solid rgba(201,162,39,.13); margin:1.1rem 0; }
+
+.input-row { display:flex; gap:.5rem; margin-bottom:.75rem; }
+#nameInput { flex:1; background:rgba(255,255,255,.06); border:1px solid rgba(201,162,39,.28); border-radius:9px; padding:.58rem .9rem; color:white; font-family:inherit; font-size:.97rem; direction:rtl; transition:border-color .2s; }
+#nameInput::placeholder { color:rgba(255,255,255,.25); }
+#nameInput:focus { outline:none; border-color:var(--gold); }
+
+.btn-add { background:var(--gold); border:none; border-radius:9px; width:40px; height:40px; color:#0a1628; font-size:1.5rem; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s,transform .1s; flex-shrink:0; line-height:1; }
+.btn-add:hover { background:var(--gold-light); }
+.btn-add:active { transform:scale(.93); }
+
+.guest-list { list-style:none; max-height:190px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:rgba(201,162,39,.25) transparent; }
+.guest-item { display:flex; justify-content:space-between; align-items:center; padding:.38rem .75rem; margin-bottom:.25rem; background:rgba(255,255,255,.05); border-radius:7px; font-size:.9rem; animation:itemIn .2s ease; }
+@keyframes itemIn { from{opacity:0;transform:translateX(8px)} to{opacity:1;transform:translateX(0)} }
+.guest-num { font-size:.65rem; color:var(--gold); opacity:.65; margin-left:.4rem; }
+.btn-remove { background:none; border:none; color:rgba(255,255,255,.28); cursor:pointer; font-size:1.1rem; padding:0; transition:color .15s; }
+.btn-remove:hover { color:#ff7070; }
+.no-guests { text-align:center; color:rgba(255,255,255,.22); font-size:.85rem; padding:1rem; font-style:italic; }
+
+.tabs { display:flex; gap:.4rem; margin-bottom:.9rem; }
+.tab-btn { flex:1; background:rgba(255,255,255,.05); border:1px solid rgba(201,162,39,.18); border-radius:8px; padding:.5rem .3rem; color:rgba(255,255,255,.5); font-family:inherit; font-size:.72rem; cursor:pointer; transition:all .18s; text-align:center; }
+.tab-btn.active { background:rgba(201,162,39,.15); border-color:var(--gold); color:var(--gold); }
+.tab-panel { display:none; }
+.tab-panel.active { display:block; }
+
+.theme-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.45rem; }
+.theme-btn { border:2px solid transparent; border-radius:10px; padding:.6rem .15rem .45rem; cursor:pointer; font-family:inherit; font-size:.7rem; text-align:center; transition:border-color .18s,transform .15s; line-height:1.3; }
+.theme-btn:hover { transform:translateY(-2px); }
+.theme-btn.active { border-color:var(--gold)!important; }
+.theme-icon { font-size:1.2rem; display:block; margin-bottom:.2rem; }
+.t-parchment{background:#f5ead0;color:#5c3d0e;border-color:#d4a857}
+.t-navy{background:#1a2744;color:#c9a227;border-color:#2d3f6b}
+.t-wine{background:#5c1e2a;color:#f5d98e;border-color:#8b3040}
+.t-olive{background:#2d4a1e;color:#b8d98e;border-color:#4a7a2e}
+.t-midnight{background:#0a0a2e;color:#8888ff;border-color:#3333aa}
+.t-rose{background:#4a1a28;color:#f0a0b0;border-color:#8a3050}
+
+.upload-zone { border:1.5px dashed rgba(201,162,39,.35); border-radius:10px; padding:1.1rem .8rem; text-align:center; cursor:pointer; transition:all .2s; position:relative; margin-bottom:.8rem; }
+.upload-zone:hover { border-color:var(--gold); background:rgba(201,162,39,.06); }
+.upload-zone.has-image { border-style:solid; border-color:var(--gold); }
+.upload-zone input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.upload-icon { font-size:1.6rem; display:block; margin-bottom:.35rem; }
+.upload-text { font-size:.75rem; color:rgba(255,255,255,.45); line-height:1.5; }
+.upload-text strong { color:var(--gold); display:block; font-size:.8rem; }
+.img-preview { width:100%; height:60px; object-fit:cover; border-radius:7px; display:none; margin-bottom:.6rem; }
+.img-preview.show { display:block; }
+
+.overlay-row { display:flex; align-items:center; gap:.7rem; margin-bottom:.5rem; }
+.overlay-label { font-size:.72rem; color:rgba(255,255,255,.45); white-space:nowrap; }
+.overlay-slider { flex:1; accent-color:var(--gold); }
+.overlay-val { font-size:.72rem; color:var(--gold); min-width:40px; text-align:center; }
+
+.txt-color-row { display:flex; gap:.45rem; flex-wrap:wrap; margin-bottom:.5rem; }
+.txt-color-btn { border:1.5px solid transparent; border-radius:6px; padding:.32rem .55rem; font-size:.68rem; cursor:pointer; font-family:inherit; transition:border-color .15s,transform .1s; }
+.txt-color-btn:hover { transform:scale(1.05); }
+.txt-color-btn.active { border-color:white; }
+.tc-white{background:rgba(255,255,255,.15);color:#fff}
+.tc-gold{background:rgba(201,162,39,.2);color:#e8c84a}
+.tc-dark{background:rgba(255,255,255,.1);color:#1a0f00}
+.tc-cream{background:rgba(245,230,180,.15);color:#f5e6b4}
+
+.btn-remove-img { width:100%; background:transparent; border:1px solid rgba(255,80,80,.3); border-radius:8px; padding:.45rem; color:rgba(255,100,100,.7); font-family:inherit; font-size:.75rem; cursor:pointer; transition:all .2s; display:none; }
+.btn-remove-img.show { display:block; }
+.btn-remove-img:hover { background:rgba(255,80,80,.1); color:#ff7070; }
+
+.sub-input, .sub-select {
+  width:100%;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(201,162,39,.22);
+  border-radius:9px;
+  padding:.55rem .9rem;
+  color:white;
+  font-family:inherit;
+  font-size:.88rem;
+  direction:rtl;
+  transition:border-color .2s;
+}
+.sub-input::placeholder { color:rgba(255,255,255,.22); }
+.sub-input:focus, .sub-select:focus { outline:none; border-color:var(--gold); }
+
+.fold-hint { background:rgba(201,162,39,.08); border:1px solid rgba(201,162,39,.2); border-radius:9px; padding:.75rem .9rem; font-size:.76rem; color:rgba(255,255,255,.5); line-height:1.65; margin-bottom:.9rem; }
+.fold-hint strong { color:var(--gold); display:block; margin-bottom:.2rem; font-size:.7rem; letter-spacing:.08em; }
+.btn-print { width:100%; background:transparent; border:1.5px solid var(--gold); border-radius:10px; padding:.75rem; color:var(--gold); font-family:inherit; font-size:.93rem; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; gap:.5rem; }
+.btn-print:hover { background:var(--gold); color:#0a1628; font-weight:600; }
+
+.cards-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.1rem; }
+.cards-count { font-size:.8rem; color:var(--text-muted); }
+.cards-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:1.6rem; }
+.empty-state { grid-column:1/-1; text-align:center; padding:5rem 2rem; color:rgba(255,255,255,.2); }
+.empty-icon { font-size:3rem; margin-bottom:1rem; }
+.empty-state p { font-size:1rem; line-height:1.7; }
+
+.tent-card-wrap { animation:cardIn .25s ease; cursor:default; transition:transform .2s; }
+.tent-card-wrap:hover { transform:translateY(-4px); }
+@keyframes cardIn { from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
+.tent-card { border-radius:10px; overflow:hidden; position:relative; width:100%; display:flex; flex-direction:column; }
+.panel { width:100%; padding:1.05rem 1.2rem; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; position:relative; flex:1; min-height:108px; background-size:cover; background-position:center; background-repeat:no-repeat; }
+.panel-top { transform:rotate(180deg); }
+.fold-line { display:flex; align-items:center; height:18px; flex-shrink:0; z-index:10; }
+.fold-line-dash { flex:1; height:1px; border-top:1.5px dashed; opacity:.5; }
+.fold-line-label { font-size:.58rem; letter-spacing:.18em; padding:0 .5rem; white-space:nowrap; opacity:.45; font-weight:400; }
+.card-top-label { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.25rem; opacity:.8; }
+.card-name { font-size:1.55rem; font-weight:700; line-height:1.2; letter-spacing:.02em; }
+.card-deco { font-size:.78rem; margin-top:.28rem; letter-spacing:.28em; opacity:.65; }
+.card-subtitle-text { font-size:.64rem; margin-top:.15rem; opacity:.7; font-weight:300; letter-spacing:.05em; }
+.card-phrase { font-size:.68rem; margin-top:.35rem; line-height:1.45; max-width:95%; opacity:.88; }
+.panel-overlay { position:absolute; inset:0; pointer-events:none; }
+.outer-border-abs { position:absolute; inset:6px; border-radius:7px; pointer-events:none; z-index:1; }
+.corner { position:absolute; width:22px; height:22px; z-index:3; pointer-events:none; }
+.c-tl{top:8px;right:8px} .c-tr{top:8px;left:8px;transform:scaleX(-1)} .c-bl{bottom:8px;right:8px;transform:scaleY(-1)} .c-br{bottom:8px;left:8px;transform:scale(-1)}
+.card-content-z { position:relative; z-index:2; width:100%; }
+
+.tent-parchment .panel{background:linear-gradient(135deg,#fdf5de 0%,#f0d98a 40%,#f5ead0 70%,#ead5a0 100%)}
+.tent-parchment{border:2px solid #b8860b}
+.tent-parchment .fold-line-dash{border-color:#8B6914} .tent-parchment .fold-line-label{color:#8B6914} .tent-parchment .fold-line{background:linear-gradient(to right,#f5ead0,#ead5a0)}
+.tent-parchment .card-top-label,.tent-parchment .card-deco{color:#8B6914} .tent-parchment .card-name{color:#2a1200} .tent-parchment .card-subtitle-text,.tent-parchment .card-phrase{color:#5c3d0e}
+.tent-parchment .outer-border-abs{border:1px solid rgba(139,105,20,.35)}
+
+.tent-navy .panel{background:#0e1b35} .tent-navy{border:2px solid #c9a227}
+.tent-navy .fold-line-dash{border-color:#c9a227} .tent-navy .fold-line-label{color:#c9a227} .tent-navy .fold-line{background:#0e1b35}
+.tent-navy .card-top-label{color:rgba(201,162,39,.65)} .tent-navy .card-name{color:#f0d060;text-shadow:0 0 16px rgba(240,208,96,.3)} .tent-navy .card-deco{color:rgba(201,162,39,.5)} .tent-navy .card-subtitle-text,.tent-navy .card-phrase{color:rgba(201,162,39,.6)}
+.tent-navy .outer-border-abs{border:.5px solid rgba(201,162,39,.22)}
+.tent-navy .big-star{position:absolute;font-size:2.8rem;opacity:.06;pointer-events:none}
+.tent-navy .big-star.sl{left:6px;top:50%;transform:translateY(-50%)} .tent-navy .big-star.sr{right:6px;top:50%;transform:translateY(-50%)}
+
+.tent-wine .panel{background:linear-gradient(150deg,#6a1f2e 0%,#4a1520 50%,#5c1e2a 100%)} .tent-wine{border:2px solid #c9a040}
+.tent-wine .fold-line-dash{border-color:#c9a040} .tent-wine .fold-line-label{color:#c9a040} .tent-wine .fold-line{background:#4a1520}
+.tent-wine .card-top-label{color:rgba(245,217,142,.6)} .tent-wine .card-name{color:#f5d98e} .tent-wine .card-deco{color:rgba(245,217,142,.45)} .tent-wine .card-subtitle-text,.tent-wine .card-phrase{color:rgba(245,217,142,.6)}
+.tent-wine .outer-border-abs{border:.5px solid rgba(197,160,64,.28)}
+
+.tent-olive .panel{background:linear-gradient(135deg,#2a4520 0%,#1e3515 100%)} .tent-olive{border:2px solid #8aad50}
+.tent-olive .fold-line-dash{border-color:#8aad50} .tent-olive .fold-line-label{color:#8aad50} .tent-olive .fold-line{background:#1e3515}
+.tent-olive .card-top-label{color:rgba(160,210,80,.65)} .tent-olive .card-name{color:#d8f0a0} .tent-olive .card-deco{color:rgba(160,210,80,.45)} .tent-olive .card-subtitle-text,.tent-olive .card-phrase{color:rgba(192,235,130,.6)}
+.tent-olive .outer-border-abs{border:.5px solid rgba(138,173,80,.3)}
+
+.tent-midnight .panel{background:linear-gradient(135deg,#0a0a25 0%,#080818 100%)} .tent-midnight{border:2px solid #6060cc}
+.tent-midnight .fold-line-dash{border-color:#6060cc} .tent-midnight .fold-line-label{color:#8888ff} .tent-midnight .fold-line{background:#080818}
+.tent-midnight .card-top-label{color:rgba(150,150,255,.6)} .tent-midnight .card-name{color:#d0d0ff;text-shadow:0 0 18px rgba(150,150,255,.35)} .tent-midnight .card-deco{color:rgba(150,150,255,.4)} .tent-midnight .card-subtitle-text,.tent-midnight .card-phrase{color:rgba(180,180,255,.62)}
+.tent-midnight .outer-border-abs{border:.5px solid rgba(100,100,200,.3)}
+
+.tent-rose .panel{background:linear-gradient(135deg,#4a1525 0%,#38101e 100%)} .tent-rose{border:2px solid #d06080}
+.tent-rose .fold-line-dash{border-color:#d06080} .tent-rose .fold-line-label{color:#f0a0b0} .tent-rose .fold-line{background:#38101e}
+.tent-rose .card-top-label{color:rgba(220,140,160,.6)} .tent-rose .card-name{color:#f8c0d0} .tent-rose .card-deco{color:rgba(220,140,160,.45)} .tent-rose .card-subtitle-text,.tent-rose .card-phrase{color:rgba(240,180,200,.62)}
+.tent-rose .outer-border-abs{border:.5px solid rgba(200,100,130,.3)}
+
+.tent-image { border:2px solid rgba(201,162,39,.55); }
+.tent-image .fold-line { background:rgba(0,0,0,.55); }
+.tent-image .fold-line-dash { border-color:rgba(201,162,39,.7); }
+.tent-image .fold-line-label { color:rgba(201,162,39,.8); }
+
+@media print {
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:white}
+  header,.sidebar,.cards-meta{display:none!important}
+  .layout{display:block;margin:0;padding:0}
+  .cards-area{width:100%}
+  .cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.6cm;padding:.5cm}
+  .tent-card-wrap{page-break-inside:avoid;break-inside:avoid}
+  .tent-card-wrap:hover{transform:none}
+  .empty-state{display:none}
+}
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sidebar{position:static}h1{font-size:1.7rem}}
+</style>
+</head>
+<body>
+<header>
+  <h1>✦ פתקי הושבה לליל הסדר ✦</h1>
+  <p class="header-sub">עיצוב אוהל — מתקפל לאמצע, עומד על השולחן, השם נראה משני הצדדים</p>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+
+    <div class="section-label">✦ אורחים</div>
+    <div class="input-row">
+      <input type="text" id="nameInput" placeholder="שם האורח..." maxlength="16" />
+      <button class="btn-add" onclick="addGuest()">+</button>
+    </div>
+    <ul class="guest-list" id="guestList"><li class="no-guests">טרם נוספו אורחים</li></ul>
+
+    <hr class="divider">
+    <div class="section-label">✦ עיצוב</div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('preset',this)">🎨 עיצובים מוכנים</button>
+      <button class="tab-btn" onclick="switchTab('image',this)">🖼️ תמונה משלי</button>
+    </div>
+
+    <div class="tab-panel active" id="tab-preset">
+      <div class="theme-grid">
+        <button class="theme-btn t-parchment active" data-theme="parchment" onclick="setTheme(this)"><span class="theme-icon">📜</span>קלף זהב</button>
+        <button class="theme-btn t-navy" data-theme="navy" onclick="setTheme(this)"><span class="theme-icon">✡</span>לילה כחול</button>
+        <button class="theme-btn t-wine" data-theme="wine" onclick="setTheme(this)"><span class="theme-icon">🍷</span>כוס יין</button>
+        <button class="theme-btn t-olive" data-theme="olive" onclick="setTheme(this)"><span class="theme-icon">🌿</span>עצי זית</button>
+        <button class="theme-btn t-midnight" data-theme="midnight" onclick="setTheme(this)"><span class="theme-icon">🌌</span>חצות כחלת</button>
+        <button class="theme-btn t-rose" data-theme="rose" onclick="setTheme(this)"><span class="theme-icon">🌸</span>שושנת יריחו</button>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="tab-image">
+      <img id="imgPreview" class="img-preview" alt="תצוגה מקדימה" />
+
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" accept="image/*" onchange="handleImage(event)" />
+        <span class="upload-icon">🖼️</span>
+        <div class="upload-text">
+          <strong>לחצו להעלאת תמונה</strong>
+          JPG / PNG / WEBP<br>מומלץ 1200×800 פיקסל ומעלה
+        </div>
+      </div>
+
+      <button class="btn-remove-img" id="btnRemoveImg" onclick="removeImage()">✕ הסרת התמונה</button>
+
+      <div style="margin-top:.8rem">
+        <div class="section-label" style="margin-bottom:.5rem">עמעום כהה מעל התמונה</div>
+        <div class="overlay-row">
+          <span class="overlay-label">שקוף</span>
+          <input type="range" class="overlay-slider" id="overlaySlider" min="0" max="85" value="40" oninput="updateOverlay(this.value)" />
+          <span class="overlay-val" id="overlayVal">40%</span>
+        </div>
+
+        <div class="section-label" style="margin-bottom:.5rem;margin-top:.6rem">צבע טקסט</div>
+        <div class="txt-color-row">
+          <button class="txt-color-btn tc-white active" data-color="white" onclick="setTextColor(this)">לבן</button>
+          <button class="txt-color-btn tc-gold" data-color="gold" onclick="setTextColor(this)">זהב</button>
+          <button class="txt-color-btn tc-cream" data-color="cream" onclick="setTextColor(this)">קרם</button>
+          <button class="txt-color-btn tc-dark" data-color="dark" onclick="setTextColor(this)">כהה</button>
+        </div>
+      </div>
+
+      <div style="margin-top:.7rem;font-size:.72rem;color:rgba(255,255,255,.3);line-height:1.6;">
+        💡 טיפ: תמונות כהות עם טקסטורה — כגון קלף עתיק, שיש, שמיים זרועי כוכבים — יוצאות יפות במיוחד
+      </div>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label">✦ כיתוב נוסף</div>
+    <input type="text" class="sub-input" id="subtitleInput" placeholder="חג פסח שמח" maxlength="22" oninput="renderCards()" />
+
+    <hr class="divider">
+    <div class="section-label">✦ גודל שם</div>
+    <div class="overlay-row">
+      <span class="overlay-label">קטן</span>
+      <input type="range" class="overlay-slider" id="fontSizeSlider" min="85" max="140" value="100" oninput="updateFontSize(this.value)" />
+      <span class="overlay-val" id="fontSizeVal">100%</span>
+    </div>
+
+    <hr class="divider">
+    <div class="section-label">✦ משפט בכרטיס</div>
+    <select class="sub-select" id="phraseSelect" onchange="handlePhraseChange()">
+      <option value="">ללא משפט נוסף</option>
+      <option value="חג פסח שמח">חג פסח שמח</option>
+      <option value="ברוכים הבאים לליל הסדר">ברוכים הבאים לליל הסדר</option>
+      <option value="שמחים לארח אתכם">שמחים לארח אתכם</option>
+      <option value="באהבה ובשמחה">באהבה ובשמחה</option>
+      <option value="לשנה של חירות, שמחה ואור">לשנה של חירות, שמחה ואור</option>
+      <option value="custom">משפט אישי...</option>
+    </select>
+
+    <div id="customPhraseWrap" style="display:none; margin-top:.55rem;">
+      <input type="text" class="sub-input" id="customPhraseInput" placeholder="כתבו משפט אישי..." maxlength="42" oninput="renderCards()" />
+    </div>
+
+    <hr class="divider">
+    <div class="fold-hint">
+      <strong>📐 הוראות קיפול</strong>
+      הדפיסו ← קפלו לאורך קו המקווקו ← הניחו על השולחן כאוהל. השם יהיה קריא משני הצדדים!
+    </div>
+    <button class="btn-print" onclick="printCards()">🖨️&nbsp; הדפסת הכרטיסים</button>
+  </aside>
+
+  <main class="cards-area">
+    <div class="cards-meta">
+      <div class="section-label">✦ תצוגה מקדימה</div>
+      <span class="cards-count" id="cardsCount"></span>
+    </div>
+    <div class="cards-grid" id="cardsGrid">
+      <div class="empty-state"><div class="empty-icon">🪑</div><p>הוסיפו שמות של אורחים<br>כדי ליצור פתקי הושבה</p></div>
+    </div>
+  </main>
+</div>
+
+<script>
+const cornerSVG = `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22"><path d="M2 22 L2 4 Q2 2 4 2 L22 2" stroke="#8B6914" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M2 12 Q2 2 12 2" stroke="#8B6914" stroke-width="0.7" stroke-linecap="round" fill="none" opacity="0.4"/><circle cx="22" cy="2" r="1.4" fill="#8B6914" opacity="0.55"/></svg>`;
+
+let guests = [];
+let currentTheme = 'parchment';
+let customImageDataURL = null;
+let overlayOpacity = 40;
+let textColorKey = 'white';
+let fontSizePercent = 100;
+
+const TEXT_COLORS = {
+  white: { main:'#ffffff', sub:'rgba(255,255,255,0.75)', deco:'rgba(255,255,255,0.65)', border:'rgba(255,255,255,0.22)', phrase:'rgba(255,255,255,0.88)' },
+  gold:  { main:'#f0d060', sub:'rgba(240,200,60,0.8)', deco:'rgba(201,162,39,0.75)', border:'rgba(201,162,39,0.3)', phrase:'rgba(240,208,96,0.88)' },
+  cream: { main:'#f5e6b4', sub:'rgba(245,230,180,0.8)', deco:'rgba(230,210,140,0.7)', border:'rgba(230,210,140,0.25)', phrase:'rgba(245,230,180,0.9)' },
+  dark:  { main:'#1a0f00', sub:'rgba(50,30,0,0.75)', deco:'rgba(80,50,10,0.7)', border:'rgba(50,30,0,0.2)', phrase:'rgba(35,20,0,0.88)' },
+};
+
+const THEMES = {
+  parchment:{cls:'tent-parchment',deco:'✿ ✦ ✿'},
+  navy:     {cls:'tent-navy',     deco:'— ✡ —'},
+  wine:     {cls:'tent-wine',     deco:'🍷 ✦ 🍷'},
+  olive:    {cls:'tent-olive',    deco:'🌿 ✦ 🌿'},
+  midnight: {cls:'tent-midnight', deco:'✦ ✦ ✦'},
+  rose:     {cls:'tent-rose',     deco:'🌸 ✦ 🌸'},
+};
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  if (tab === 'image' && customImageDataURL) {
+    currentTheme = 'image';
+  } else if (tab === 'preset') {
+    if (currentTheme === 'image') currentTheme = 'parchment';
+    document.querySelector('.theme-btn.active') || document.querySelector('.theme-btn[data-theme="parchment"]').classList.add('active');
+  }
+  renderCards();
+}
+
+function handleImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    customImageDataURL = ev.target.result;
+    currentTheme = 'image';
+    document.getElementById('imgPreview').src = customImageDataURL;
+    document.getElementById('imgPreview').classList.add('show');
+    document.getElementById('uploadZone').classList.add('has-image');
+    document.getElementById('uploadZone').style.display = 'none';
+    document.getElementById('btnRemoveImg').classList.add('show');
+    renderCards();
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImage() {
+  customImageDataURL = null;
+  currentTheme = 'parchment';
+  document.getElementById('imgPreview').classList.remove('show');
+  document.getElementById('imgPreview').src = '';
+  document.getElementById('uploadZone').classList.remove('has-image');
+  document.getElementById('uploadZone').style.display = '';
+  document.getElementById('btnRemoveImg').classList.remove('show');
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelector('.theme-btn[data-theme="parchment"]').classList.add('active');
+  renderCards();
+}
+
+function updateOverlay(v) {
+  overlayOpacity = parseInt(v);
+  document.getElementById('overlayVal').textContent = v + '%';
+  renderCards();
+}
+
+function setTextColor(btn) {
+  textColorKey = btn.dataset.color;
+  document.querySelectorAll('.txt-color-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+
+function updateFontSize(v) {
+  fontSizePercent = parseInt(v);
+  document.getElementById('fontSizeVal').textContent = v + '%';
+  renderCards();
+}
+
+function handlePhraseChange() {
+  const select = document.getElementById('phraseSelect');
+  const wrap = document.getElementById('customPhraseWrap');
+  wrap.style.display = select.value === 'custom' ? 'block' : 'none';
+  renderCards();
+}
+
+function getPhraseText() {
+  const select = document.getElementById('phraseSelect').value;
+  if (select === 'custom') {
+    return document.getElementById('customPhraseInput').value.trim();
+  }
+  return select.trim();
+}
+
+function addGuest() {
+  const inp = document.getElementById('nameInput');
+  const name = inp.value.trim();
+  if (!name) return;
+  if (guests.includes(name)) {
+    inp.style.borderColor='#ff7070';
+    setTimeout(()=>{inp.style.borderColor='';},1600);
+    return;
+  }
+  guests.push(name);
+  inp.value='';
+  inp.focus();
+  renderAll();
+}
+
+function removeGuest(i) {
+  guests.splice(i,1);
+  renderAll();
+}
+
+function setTheme(btn) {
+  currentTheme = btn.dataset.theme;
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards();
+}
+
+function renderList() {
+  const ul = document.getElementById('guestList');
+  if (!guests.length) {
+    ul.innerHTML='<li class="no-guests">טרם נוספו אורחים</li>';
+    return;
+  }
+  ul.innerHTML = guests.map((n,i)=>`<li class="guest-item"><span><span class="guest-num">${i+1}.</span> ${n}</span><button class="btn-remove" onclick="removeGuest(${i})">×</button></li>`).join('');
+}
+
+function buildCard(name) {
+  const sub = document.getElementById('subtitleInput').value.trim();
+  const phrase = getPhraseText();
+  const nameFontSize = (1.55 * fontSizePercent / 100).toFixed(2) + 'rem';
+  const phraseHTMLDefault = phrase ? `<div class="card-phrase">${phrase}</div>` : '';
+
+  if (currentTheme === 'image' && customImageDataURL) {
+    const tc = TEXT_COLORS[textColorKey];
+    const overlayStyle = `background:rgba(0,0,0,${overlayOpacity/100})`;
+    const bgStyle = `background-image:url('${customImageDataURL}');background-size:cover;background-position:center;background-repeat:no-repeat;`;
+    const subHTML = sub ? `<div class="card-subtitle-text" style="color:${tc.sub}">${sub}</div>` : '';
+    const phraseHTML = phrase ? `<div class="card-phrase" style="color:${tc.phrase}">${phrase}</div>` : '';
+
+    const imageInner = `
+      <div class="panel-overlay" style="${overlayStyle}"></div>
+      <div class="outer-border-abs" style="border:.5px solid ${tc.border}"></div>
+      <div class="card-content-z">
+        <div class="card-top-label" style="color:${tc.deco}">✦ ליל הסדר ✦</div>
+        <div class="card-name" style="font-size:${nameFontSize};color:${tc.main};text-shadow:0 2px 12px rgba(0,0,0,0.6)">${name}</div>
+        <div class="card-deco" style="color:${tc.deco}">✦ ✦ ✦</div>
+        ${subHTML}
+        ${phraseHTML}
+      </div>
+    `;
+
+    return `<div class="tent-card-wrap"><div class="tent-card tent-image">
+      <div class="panel panel-top" style="${bgStyle}">${imageInner}</div>
+      <div class="fold-line"><div class="fold-line-dash"></div><span class="fold-line-label">קו קיפול</span><div class="fold-line-dash"></div></div>
+      <div class="panel" style="${bgStyle}">${imageInner}</div>
+    </div></div>`;
+  }
+
+  const t = THEMES[currentTheme] || THEMES.parchment;
+  const isParc = currentTheme === 'parchment';
+  const corners = isParc ? `<div class="corner c-tl">${cornerSVG}</div><div class="corner c-tr">${cornerSVG}</div><div class="corner c-bl">${cornerSVG}</div><div class="corner c-br">${cornerSVG}</div>` : '';
+  const navStars = currentTheme==='navy' ? `<div class="big-star sl">✡</div><div class="big-star sr">✡</div>` : '';
+  const subHTML = sub ? `<div class="card-subtitle-text">${sub}</div>` : '';
+  const inner = `<div class="outer-border-abs"></div>${corners}${navStars}<div class="card-content-z"><div class="card-top-label">✦ ליל הסדר ✦</div><div class="card-name" style="font-size:${nameFontSize}">${name}</div><div class="card-deco">${t.deco}</div>${subHTML}${phraseHTMLDefault}</div>`;
+  return `<div class="tent-card-wrap"><div class="tent-card ${t.cls}">
+    <div class="panel panel-top">${inner}</div>
+    <div class="fold-line"><div class="fold-line-dash"></div><span class="fold-line-label">קו קיפול</span><div class="fold-line-dash"></div></div>
+    <div class="panel">${inner}</div>
+  </div></div>`;
+}
+
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  const count = document.getElementById('cardsCount');
+  if (!guests.length) {
+    grid.innerHTML=`<div class="empty-state"><div class="empty-icon">🪑</div><p>הוסיפו שמות של אורחים<br>כדי ליצור פתקי הושבה</p></div>`;
+    count.textContent='';
+    return;
+  }
+  grid.innerHTML = guests.map(buildCard).join('');
+  count.textContent = `${guests.length} אורחים`;
+}
+
+function renderAll() {
+  renderList();
+  renderCards();
+}
+
+document.getElementById('nameInput').addEventListener('keydown', e=>{
+  if(e.key==='Enter') addGuest();
+});
+
+function printCards() {
+  if (!guests.length) {
+    alert('יש להוסיף אורחים לפני ההדפסה');
+    return;
+  }
+
+  const cardsHTML = guests.map(buildCard).join('');
+
+  const cardCSS = `
+    @import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&display=swap');
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:100%; }
+    body {
+      font-family:'Frank Ruhl Libre','Times New Roman',serif;
+      background:white;
+      direction:rtl;
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 10mm;
+    }
+
+    .cards-grid {
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:8mm;
+      padding:0;
+    }
+
+    .tent-card-wrap {
+      break-inside:avoid;
+      page-break-inside:avoid;
+    }
+
+    .tent-card {
+      border-radius:10px;
+      overflow:hidden;
+      width:100%;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .panel {
+      width:100%;
+      padding:1rem 1.1rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      position:relative;
+      min-height:105px;
+      background-size:cover !important;
+      background-position:center !important;
+      background-repeat:no-repeat !important;
+      -webkit-print-color-adjust:exact !important;
+      print-color-adjust:exact !important;
+    }
+
+    .panel-top { transform:rotate(180deg); }
+    .fold-line { display:flex; align-items:center; height:18px; flex-shrink:0; }
+    .fold-line-dash { flex:1; border-top:1.5px dashed; opacity:.5; }
+    .fold-line-label { font-size:.55rem; letter-spacing:.18em; padding:0 .45rem; white-space:nowrap; opacity:.4; }
+    .card-top-label { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.22rem; opacity:.8; }
+    .card-name { font-weight:700; line-height:1.2; }
+    .card-deco { font-size:.75rem; margin-top:.25rem; letter-spacing:.28em; opacity:.65; }
+    .card-subtitle-text { font-size:.62rem; margin-top:.12rem; opacity:.7; font-weight:300; }
+    .card-phrase { font-size:.66rem; margin-top:.3rem; line-height:1.4; max-width:95%; opacity:.88; }
+    .panel-overlay { position:absolute; inset:0; pointer-events:none; }
+    .outer-border-abs { position:absolute; inset:6px; border-radius:7px; pointer-events:none; z-index:1; }
+    .corner { position:absolute; width:20px; height:20px; z-index:3; }
+    .c-tl{top:7px;right:7px} .c-tr{top:7px;left:7px;transform:scaleX(-1)} .c-bl{bottom:7px;right:7px;transform:scaleY(-1)} .c-br{bottom:7px;left:7px;transform:scale(-1)}
+    .card-content-z { position:relative; z-index:2; width:100%; }
+
+    .tent-parchment .panel{background:linear-gradient(135deg,#fdf5de 0%,#f0d98a 40%,#f5ead0 70%,#ead5a0 100%) !important;}
+    .tent-parchment{border:2px solid #b8860b}
+    .tent-parchment .fold-line-dash{border-color:#8B6914} .tent-parchment .fold-line-label{color:#8B6914} .tent-parchment .fold-line{background:linear-gradient(to right,#f5ead0,#ead5a0)}
+    .tent-parchment .card-top-label,.tent-parchment .card-deco{color:#8B6914} .tent-parchment .card-name{color:#2a1200} .tent-parchment .card-subtitle-text,.tent-parchment .card-phrase{color:#5c3d0e}
+    .tent-parchment .outer-border-abs{border:1px solid rgba(139,105,20,.35)}
+
+    .tent-navy .panel{background:#0e1b35 !important} .tent-navy{border:2px solid #c9a227}
+    .tent-navy .fold-line-dash{border-color:#c9a227} .tent-navy .fold-line-label{color:#c9a227} .tent-navy .fold-line{background:#0e1b35}
+    .tent-navy .card-top-label{color:rgba(201,162,39,.75)} .tent-navy .card-name{color:#f0d060} .tent-navy .card-deco{color:rgba(201,162,39,.6)} .tent-navy .card-subtitle-text,.tent-navy .card-phrase{color:rgba(201,162,39,.65)}
+    .tent-navy .outer-border-abs{border:.5px solid rgba(201,162,39,.3)}
+    .tent-navy .big-star{position:absolute;font-size:2.8rem;opacity:.06;pointer-events:none}
+    .tent-navy .big-star.sl{left:6px;top:50%;transform:translateY(-50%)} .tent-navy .big-star.sr{right:6px;top:50%;transform:translateY(-50%)}
+
+    .tent-wine .panel{background:linear-gradient(150deg,#6a1f2e 0%,#4a1520 50%,#5c1e2a 100%) !important} .tent-wine{border:2px solid #c9a040}
+    .tent-wine .fold-line-dash{border-color:#c9a040} .tent-wine .fold-line-label{color:#c9a040} .tent-wine .fold-line{background:#4a1520}
+    .tent-wine .card-top-label{color:rgba(245,217,142,.7)} .tent-wine .card-name{color:#f5d98e} .tent-wine .card-deco{color:rgba(245,217,142,.55)} .tent-wine .card-subtitle-text,.tent-wine .card-phrase{color:rgba(245,217,142,.65)}
+    .tent-wine .outer-border-abs{border:.5px solid rgba(197,160,64,.35)}
+
+    .tent-olive .panel{background:linear-gradient(135deg,#2a4520 0%,#1e3515 100%) !important} .tent-olive{border:2px solid #8aad50}
+    .tent-olive .fold-line-dash{border-color:#8aad50} .tent-olive .fold-line-label{color:#8aad50} .tent-olive .fold-line{background:#1e3515}
+    .tent-olive .card-top-label{color:rgba(160,210,80,.75)} .tent-olive .card-name{color:#d8f0a0} .tent-olive .card-deco{color:rgba(160,210,80,.55)} .tent-olive .card-subtitle-text,.tent-olive .card-phrase{color:rgba(192,235,130,.7)}
+    .tent-olive .outer-border-abs{border:.5px solid rgba(138,173,80,.35)}
+
+    .tent-midnight .panel{background:linear-gradient(135deg,#0a0a25 0%,#080818 100%) !important} .tent-midnight{border:2px solid #6060cc}
+    .tent-midnight .fold-line-dash{border-color:#6060cc} .tent-midnight .fold-line-label{color:#8888ff} .tent-midnight .fold-line{background:#080818}
+    .tent-midnight .card-top-label{color:rgba(150,150,255,.7)} .tent-midnight .card-name{color:#d0d0ff} .tent-midnight .card-deco{color:rgba(150,150,255,.5)} .tent-midnight .card-subtitle-text,.tent-midnight .card-phrase{color:rgba(180,180,255,.65)}
+    .tent-midnight .outer-border-abs{border:.5px solid rgba(100,100,200,.35)}
+
+    .tent-rose .panel{background:linear-gradient(135deg,#4a1525 0%,#38101e 100%) !important} .tent-rose{border:2px solid #d06080}
+    .tent-rose .fold-line-dash{border-color:#d06080} .tent-rose .fold-line-label{color:#f0a0b0} .tent-rose .fold-line{background:#38101e}
+    .tent-rose .card-top-label{color:rgba(220,140,160,.7)} .tent-rose .card-name{color:#f8c0d0} .tent-rose .card-deco{color:rgba(220,140,160,.55)} .tent-rose .card-subtitle-text,.tent-rose .card-phrase{color:rgba(240,180,200,.7)}
+    .tent-rose .outer-border-abs{border:.5px solid rgba(200,100,130,.35)}
+
+    .tent-image{border:2px solid rgba(201,162,39,.6)}
+    .tent-image .fold-line{background:rgba(0,0,0,.55)}
+    .tent-image .fold-line-dash{border-color:rgba(201,162,39,.7)}
+    .tent-image .fold-line-label{color:rgba(201,162,39,.8)}
+
+    img { max-width:100%; display:block; }
+  `;
+
+  const html = `
+    <!DOCTYPE html>
+    <html dir="rtl" lang="he">
+    <head>
+      <meta charset="UTF-8">
+      <title>פתקי הושבה לליל הסדר</title>
+      <style>${cardCSS}</style>
+    </head>
+    <body>
+      <div class="cards-grid">${cardsHTML}</div>
+    </body>
+    </html>
+  `;
+
+  const iframe = document.createElement('iframe');
+  iframe.style.position = 'fixed';
+  iframe.style.right = '0';
+  iframe.style.bottom = '0';
+  iframe.style.width = '0';
+  iframe.style.height = '0';
+  iframe.style.border = '0';
+  iframe.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(iframe);
+
+  const doc = iframe.contentWindow.document;
+  doc.open();
+  doc.write(html);
+  doc.close();
+
+  const waitForImages = () => {
+    const images = Array.from(doc.images || []);
+    if (!images.length) return Promise.resolve();
+    return Promise.all(images.map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise(resolve => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+    }));
+  };
+
+  const waitForFonts = () => {
+    if (doc.fonts && doc.fonts.ready) {
+      return doc.fonts.ready.catch(() => Promise.resolve());
+    }
+    return Promise.resolve();
+  };
+
+  Promise.all([waitForImages(), waitForFonts()]).then(() => {
+    setTimeout(() => {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+      setTimeout(() => {
+        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+      }, 1000);
+    }, 250);
+  });
+}
+
+guests = ['אבא','אמא','סבא','סבתא','דוד יוסי','דודה מרים'];
+renderAll();
+</script>
+</body>
+</html>
