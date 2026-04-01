@@ -124,7 +124,7 @@ h1 { font-size:2.2rem; font-weight:700; color:var(--gold); letter-spacing:.03em;
 .fold-line-dash { flex:1; height:1px; border-top:1.5px dashed; opacity:.5; }
 .fold-line-label { font-size:.58rem; letter-spacing:.18em; padding:0 .5rem; white-space:nowrap; opacity:.45; font-weight:400; }
 .card-top-label { font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.25rem; opacity:.8; }
-.card-name { font-size:1.55rem; font-weight:700; line-height:1.2; letter-spacing:.02em; }
+.card-name { font-size:var(--guest-name-size, 1.55rem); font-weight:700; line-height:1.2; letter-spacing:.02em; }
 .card-deco { font-size:.78rem; margin-top:.28rem; letter-spacing:.28em; opacity:.65; }
 .card-subtitle-text { font-size:.64rem; margin-top:.15rem; opacity:.7; font-weight:300; letter-spacing:.05em; }
 .card-phrase { font-size:.68rem; margin-top:.35rem; line-height:1.45; max-width:95%; opacity:.88; }
@@ -448,6 +448,7 @@ function buildCard(name) {
   const sub = document.getElementById('subtitleInput').value.trim();
   const phrase = getPhraseText();
   const nameFontSize = (1.55 * fontSizePercent / 100).toFixed(2) + 'rem';
+  const cardStyleVar = `--guest-name-size:${nameFontSize};`;
   const phraseHTMLDefault = phrase ? `<div class="card-phrase">${phrase}</div>` : '';
 
   if (currentTheme === 'image' && customImageDataURL) {
@@ -462,14 +463,14 @@ function buildCard(name) {
       <div class="outer-border-abs" style="border:.5px solid ${tc.border}"></div>
       <div class="card-content-z">
         <div class="card-top-label" style="color:${tc.deco}">✦ ליל הסדר ✦</div>
-        <div class="card-name" style="font-size:${nameFontSize};color:${tc.main};text-shadow:0 2px 12px rgba(0,0,0,0.6)">${name}</div>
+        <div class="card-name" style="color:${tc.main};text-shadow:0 2px 12px rgba(0,0,0,0.6)">${name}</div>
         <div class="card-deco" style="color:${tc.deco}">✦ ✦ ✦</div>
         ${subHTML}
         ${phraseHTML}
       </div>
     `;
 
-    return `<div class="tent-card-wrap"><div class="tent-card tent-image">
+    return `<div class="tent-card-wrap"><div class="tent-card tent-image" style="${cardStyleVar}">
       <div class="panel panel-top" style="${bgStyle}">${imageInner}</div>
       <div class="fold-line"><div class="fold-line-dash"></div><span class="fold-line-label">קו קיפול</span><div class="fold-line-dash"></div></div>
       <div class="panel" style="${bgStyle}">${imageInner}</div>
@@ -481,8 +482,8 @@ function buildCard(name) {
   const corners = isParc ? `<div class="corner c-tl">${cornerSVG}</div><div class="corner c-tr">${cornerSVG}</div><div class="corner c-bl">${cornerSVG}</div><div class="corner c-br">${cornerSVG}</div>` : '';
   const navStars = currentTheme==='navy' ? `<div class="big-star sl">✡</div><div class="big-star sr">✡</div>` : '';
   const subHTML = sub ? `<div class="card-subtitle-text">${sub}</div>` : '';
-  const inner = `<div class="outer-border-abs"></div>${corners}${navStars}<div class="card-content-z"><div class="card-top-label">✦ ליל הסדר ✦</div><div class="card-name" style="font-size:${nameFontSize}">${name}</div><div class="card-deco">${t.deco}</div>${subHTML}${phraseHTMLDefault}</div>`;
-  return `<div class="tent-card-wrap"><div class="tent-card ${t.cls}">
+  const inner = `<div class="outer-border-abs"></div>${corners}${navStars}<div class="card-content-z"><div class="card-top-label">✦ ליל הסדר ✦</div><div class="card-name">${name}</div><div class="card-deco">${t.deco}</div>${subHTML}${phraseHTMLDefault}</div>`;
+  return `<div class="tent-card-wrap"><div class="tent-card ${t.cls}" style="${cardStyleVar}">
     <div class="panel panel-top">${inner}</div>
     <div class="fold-line"><div class="fold-line-dash"></div><span class="fold-line-label">קו קיפול</span><div class="fold-line-dash"></div></div>
     <div class="panel">${inner}</div>
@@ -578,7 +579,7 @@ function printCards() {
     .fold-line-dash { flex:1; border-top:1.5px dashed; opacity:.5; }
     .fold-line-label { font-size:.55rem; letter-spacing:.18em; padding:0 .45rem; white-space:nowrap; opacity:.4; }
     .card-top-label { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; margin-bottom:.22rem; opacity:.8; }
-    .card-name { font-weight:700; line-height:1.2; }
+    .card-name { font-size:var(--guest-name-size, 1.55rem); font-weight:700; line-height:1.2; }
     .card-deco { font-size:.75rem; margin-top:.25rem; letter-spacing:.28em; opacity:.65; }
     .card-subtitle-text { font-size:.62rem; margin-top:.12rem; opacity:.7; font-weight:300; }
     .card-phrase { font-size:.66rem; margin-top:.3rem; line-height:1.4; max-width:95%; opacity:.88; }
